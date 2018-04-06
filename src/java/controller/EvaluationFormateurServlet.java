@@ -1,6 +1,7 @@
 package controller;
 
-import dao.EvaluationDao;
+
+import dao.EvaluationDaoFormateurDao;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -12,18 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 import model.Evaluation;
 
 /**
- * Servlet implementation class EvaluationServlet
+ * Servlet implementation class EvaluationFormateurServlet
  */
-@WebServlet(name = "EvaluationServlet", urlPatterns = {"/evaluation"})
-public class EvaluationServlet extends HttpServlet {
-    private final String VUE_OK = "/WEB-INF/evaluations.jsp";
+@WebServlet(name = "EvaluationFormateurServlet", urlPatterns = {"/evaluationsFormateur"})
+public class EvaluationFormateurServlet extends HttpServlet {
+    private final String VUE_OK = "/WEB-INF/evaluationsFormateur.jsp";
     private final String VUE_ERREUR = "/WEB-INF/message.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String vue = VUE_OK;
         try {
-            EvaluationDao dao = new EvaluationDao();
+            EvaluationDaoFormateurDao dao = new EvaluationDaoFormateurDao();
             List<Evaluation> evaluations = dao.getOuvertes();
             request.setAttribute("evaluation", evaluations);
             

@@ -17,7 +17,7 @@ import model.Evaluation;
 
 
 
-public class EvaluationDao {
+public class EvaluationStagiaireDao {
 
   
     public List<Evaluation> getOuvertes() throws SQLException {

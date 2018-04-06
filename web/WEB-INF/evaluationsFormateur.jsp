@@ -4,10 +4,10 @@
 
     
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-        <title>Evaluations</title>
+        <title>Evaluations Formateur</title>
     
     <body>
-        <h1>Liste des evaluations </h1>
+        <h1>Liste des evaluations Formateur</h1>
         <br>
         <table style="border: 1px solid black;border-collapse: collapse;">
             <tr style="border: 1px solid black;">
