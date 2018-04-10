@@ -7,6 +7,7 @@ package dao;
  */
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,14 +21,18 @@ import model.Evaluation;
 public class EvaluationStagiaireDao {
 
   
-    public List<Evaluation> getOuvertes() throws SQLException {
+    public List<Evaluation> getEvaluationByStagiaire(int idStagiaire) throws SQLException {
         Connection con = Database.getConnection();
-        List<Evaluation> result = new ArrayList();
+        List<Evaluation> result = new ArrayList <>();
 
-        String requete = "SELECT * FROM agriotes2018.evaluation ";
+        String requete = "SELECT * FROM evaluation WHERE id_session_formation IN "
+                         + "( SELECT id_session_formation FROM stagiaire" 
+                         + " WHERE est_ouverte=1 AND id_personne=?" +
+                            "); ";
 
-        Statement canal = con.createStatement();
-        ResultSet rs = canal.executeQuery(requete);
+         PreparedStatement canal = con.prepareStatement(requete);
+        canal.setInt(1, idStagiaire);
+        ResultSet rs = canal.executeQuery();
 
         while (rs.next()) {
             Evaluation evaluation = new Evaluation(

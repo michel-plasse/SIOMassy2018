@@ -6,10 +6,10 @@ package dao;
  * and open the template in the editor.
  */
 
+import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Evaluation;
@@ -17,18 +17,18 @@ import model.Evaluation;
 
 
 
-public class EvaluationDaoFormateurDao {
+public class EvaluationFormateurDao {
 
   
-    public List<Evaluation> getOuvertes() throws SQLException {
+    public List<Evaluation> getEvaluationByFormateur(int idFormateur) throws SQLException {
         Connection con = Database.getConnection();
         List<Evaluation> result = new ArrayList();
 
-        String requete = "SELECT * FROM agriotes2018.evaluation ";
-
-        Statement canal = con.createStatement();
-        ResultSet rs = canal.executeQuery(requete);
-
+        String requete = "SELECT * FROM evaluation WHERE id_formateur=?";
+        PreparedStatement canal = con.prepareStatement(requete);
+        canal.setInt(1, idFormateur);
+        ResultSet rs = canal.executeQuery();
+            
         while (rs.next()) {
             Evaluation evaluation = new Evaluation(
                     rs.getInt("id_evaluation"),
@@ -43,6 +43,9 @@ public class EvaluationDaoFormateurDao {
 
         return result;
     }
+    
+    
+    
 
 }
 
