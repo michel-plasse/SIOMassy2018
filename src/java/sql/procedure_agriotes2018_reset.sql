@@ -160,60 +160,34 @@ BEGIN
     (15, 6, null),
     (16, 6, null);
     
-    INSERT INTO presence(id_personne, id_seance, est_present) VALUES
-    (1, 1, true),
-    (2, 1, true),
-    (3, 1, true),
-    (4, 1, true),
-    (5, 1, false),
-    (6, 2, true),
-    (7, 2, true),
-    (8, 2, false),
-    (9, 2, false),
-    (10, 2, true),
-    (11, 2, true),
-    (13, 3, false),
-    (14, 3, true),
-    (15, 3, true),
-    (16, 3, true),
-    (1, 4, false),
-    (2, 4, false),
-    (3, 4, true),
-    (4, 4, true),
-    (5, 4, false),
-    (6, 5, true),
-    (7, 5, true),
-    (8, 5, true),
-    (9, 5, true),
-    (10, 5, false),
-    (11, 5, true),
-    (13, 6, false),
-    (14, 6, true),
-    (15, 6, true),
-    (16, 6, false),
-    (1, 7, false),
-    (2, 7, false),
-    (3, 7, true),
-    (4, 7, false),
-    (5, 7, false),
-    (1, 8, false),
-    (2, 8, false),
-    (3, 8, true),
-    (4, 8, false),
-    (5, 8, true),
-    (13, 9, null),
-    (14, 9, null),
-    (15, 9, null),
-    (16, 9, null),
-    (13, 10, null),
-    (14, 10, null),
-    (15, 10, null),
-    (16, 10, null),
-    (13, 11, null),
-    (14, 11, null),
-    (15, 11, null),
-    (16, 11, null);
-    
+    -- La table presence est alimentee par un déclencheur sur seance, qui gere des lignes
+    -- de valeur est-present à NULL.
+    -- Nous positionnons ainsi les valeurs par des UPDATE
+    UPDATE presence SET est_present=1
+    WHERE (id_seance, id_personne) IN
+	(
+		(1, 1), (1, 2), (1,3), (1, 4),
+        (2, 6), (2, 7), (2, 10), (2, 11),
+        (3, 14), (3, 15), (3, 16),
+        (4, 3), (4, 4), (4, 4),
+        (5, 6), (5, 7), (5,8), (5, 9), (5, 11),
+        (6, 14), (6, 15),
+        (7, 3), (7, 5),
+        (8, 3), (8, 5)
+	);
+    UPDATE presence SET est_present=0
+    WHERE (id_seance, id_personne) IN
+	(
+		(1, 5),
+        (2, 8), (2, 9),
+        (3, 13),
+        (4, 1), (4, 2), (4, 5),
+        (5, 10),
+        (6, 13), (6, 16),
+        (7, 1), (6, 2), (6, 3), (6, 4), (6, 5),
+        (8, 1), (8, 2)
+	);
+   
     INSERT INTO projet(id_projet, id_formateur, id_session_formation, titre) VALUES
     (1, 23, 1, 'Maintient d''un site web'),
     (2, 24, 1, 'Calcule de matrice');
