@@ -111,10 +111,10 @@ BEGIN
     INSERT INTO seance(id_seance, id_session_formation, id_formateur, id_module, jour, creneau) VALUES
     (1, 1, 23, 1, date_effet - INTERVAL 2 YEAR + INTERVAL 4 MONTH, 1),
     (2, 2, 23, 1, date_effet - INTERVAL 2 YEAR + INTERVAL 4 MONTH, 2),
-    (3, 3, 24, 2, date_effet - INTERVAL 2 YEAR + INTERVAL 4 MONTH, 4),
-    (4, 1, 23, 1, date_effet - INTERVAL 2 YEAR + INTERVAL 4 MONTH, 2),
-    (5, 2, 23, 1, date_effet - INTERVAL 2 YEAR + INTERVAL 4 MONTH, 3),
-    (6, 3, 24, 2, date_effet - INTERVAL 2 YEAR + INTERVAL 4 MONTH, 1),
+    (3, 3, 23, 2, date_effet - INTERVAL 2 YEAR + INTERVAL 4 MONTH + INTERVAL 1 DAY, 1),
+    (4, 1, 23, 2, date_effet - INTERVAL 2 YEAR + INTERVAL 4 MONTH + INTERVAL 1 DAY, 2),
+    (5, 2, 24, 1, date_effet - INTERVAL 2 YEAR + INTERVAL 4 MONTH, 1),
+    (6, 3, 24, 2, date_effet - INTERVAL 2 YEAR + INTERVAL 4 MONTH, 2),
     (7, 1, 23, 1, date_effet - INTERVAL 1 YEAR, 2),
     (8, 1, 24, 2, date_effet - INTERVAL 1 YEAR, 4),
     (9, 2, 24, 2, date_effet, 2),
@@ -241,3 +241,5 @@ BEGIN
     (22, 2);
 
 END$$
+
+CALL agriotes2018_reset(now());
