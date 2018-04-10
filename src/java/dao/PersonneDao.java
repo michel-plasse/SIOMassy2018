@@ -24,5 +24,30 @@ public class PersonneDao {
         stmt.close();
         connection.close();
     }
+    public void evaluationFormateur(String idFormateur){
+        Statement canal = null;
+        try {
+              Connection con = Database.getConnection();
+              canal = con.createStatement();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					System.out.println("le statement ne marche pas ");
+				}
+				
+					try {
+						ResultSet resultat =canal.executeQuery("SELECT * FROM agriotes2018.evaluation WHERE id_formateur == "+ idFormateur );
+						while(resultat.next()) {
+                                                    String id_evaluation;
+                                                    String id_module;
+                                                    String id_formateur;
+                                                    String date_debut;
+                                                    String nb_minute;
+                                                    String titre;
+						}}catch (SQLException e) { System.out.println("la Selection de Bases de données dans My sql ne foctionne pas");}
+					
+					
+    
+    }
 
 }

@@ -70,8 +70,11 @@ public class InscrireServlet extends HttpServlet {
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String mail = request.getParameter("mail");
-        String tel = request.getParameter("telephone");
-        String adresse = request.getParameter("adresse");
+        
+	String tel = request.getParameter("telephone");
+	tel = tel.replaceAll(" ", "");
+        
+	String adresse = request.getParameter("adresse");
         String codepostal = request.getParameter("codepostal");
         String ville = request.getParameter("ville");
 
@@ -89,7 +92,7 @@ public class InscrireServlet extends HttpServlet {
             request.setAttribute("mail_message", "Veuillez entrer votre e-mail.");
         }
         
-        if (tel == null || tel.matches("^ *$")) {
+        if (tel == null || tel.matches("^ *$") || tel.length() != 10) {
             champsvalides = false;
             request.setAttribute("telephone_message", "Veuillez entrer votre téléphone.");
         }
