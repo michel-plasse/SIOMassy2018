@@ -11,6 +11,11 @@ import model.SessionFormation;
 
 public class SessionFormationDao {
 
+    /** Sessions de formation actuellement ouvertes (sur la base du champ est_ouverte de la table 
+     * session_formation), triées de la plus ancienne  la plus récente.
+     * @return
+     * @throws SQLException 
+     */
     public List<SessionFormation> getOuvertes() throws SQLException {
         Connection con = Database.getConnection();
         List<SessionFormation> listeDesSessionsOuvertes = new ArrayList<SessionFormation>();
