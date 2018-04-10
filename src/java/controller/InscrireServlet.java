@@ -71,10 +71,10 @@ public class InscrireServlet extends HttpServlet {
         String prenom = request.getParameter("prenom");
         String mail = request.getParameter("mail");
         
-		String tel = request.getParameter("telephone");
-		tel = tel.replaceAll(" ", "");
+	String tel = request.getParameter("telephone");
+	tel = tel.replaceAll(" ", "");
         
-		String adresse = request.getParameter("adresse");
+	String adresse = request.getParameter("adresse");
         String codepostal = request.getParameter("codepostal");
         String ville = request.getParameter("ville");
 
