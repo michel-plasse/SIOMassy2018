@@ -23,6 +23,7 @@ BEGIN
       TRUNCATE TABLE projet;
       TRUNCATE TABLE seance;
       TRUNCATE TABLE session_formation;
+      TRUNCATE TABLE type_echange;
    SET FOREIGN_KEY_CHECKS=1;
     
     INSERT INTO personne(id_personne, nom, prenom, mail, tel, adresse, code_postal, ville, mot_de_passe) VALUES
@@ -192,17 +193,24 @@ BEGIN
     (1, 23, 1, 'Maintient d''un site web'),
     (2, 24, 1, 'Calcule de matrice');
     
-    INSERT INTO echange(id_echange, id_personne, instant, texte) VALUES
-    (1, 2, date_effet - INTERVAL 2 YEAR + INTERVAL 5 MONTH, 'Demande d''information concernant la formation'),
-    (2, 2, date_effet - INTERVAL 2 YEAR + INTERVAL 7 MONTH, 'Demande d''inscription'),
-    (3, 2, date_effet - INTERVAL 2 YEAR + INTERVAL 7 MONTH, 'Confirmation de l''invitation a la journée d''information'),
-    (4, 22, date_effet - INTERVAL 2 YEAR + INTERVAL 7 MONTH + INTERVAL 1 DAY, 'Contact 1'),
-    (5, 22, date_effet - INTERVAL 2 YEAR + INTERVAL 7 MONTH + INTERVAL 3 DAY, 'Contact 2'),
-    (6, 22, date_effet - INTERVAL 2 YEAR + INTERVAL 7 MONTH + INTERVAL 5 DAY, 'Contact 3'),
-    (7, 22, date_effet - INTERVAL 2 YEAR + INTERVAL 8 MONTH, 'Contact 4'),
-    (8, 22, date_effet - INTERVAL 2 YEAR + INTERVAL 8 MONTH + INTERVAL 1 DAY, 'Contact 5'),
-    (9, 2, date_effet - INTERVAL 2 DAY, 'Demande d''information'),
-    (10, 2, date_effet, 'Demande d''annulation d''inscription');
+    INSERT INTO type_echange(id_type_echange, libelle) VALUES
+    (1, 'Email reçu'),
+    (2, 'Email envoyé'),
+    (3, 'Appel tel reçu'),
+    (4, 'Appel tel émis'),
+    (5, 'Présence');
+
+    INSERT INTO echange(id_echange, id_personne, id_type_echange, instant, texte) VALUES
+    (1, 2, 3, date_effet - INTERVAL 2 YEAR + INTERVAL 5 MONTH, 'Demande d''information concernant la formation'),
+    (2, 2, 1, date_effet - INTERVAL 2 YEAR + INTERVAL 7 MONTH, 'Demande d''inscription'),
+    (3, 2, 2, date_effet - INTERVAL 2 YEAR + INTERVAL 7 MONTH, 'Confirmation de l''invitation a la journée d''information'),
+    (4, 22, 1, date_effet - INTERVAL 2 YEAR + INTERVAL 7 MONTH + INTERVAL 1 DAY, 'Contact 1'),
+    (5, 22, 2, date_effet - INTERVAL 2 YEAR + INTERVAL 7 MONTH + INTERVAL 3 DAY, 'Contact 2'),
+    (6, 22, 3, date_effet - INTERVAL 2 YEAR + INTERVAL 7 MONTH + INTERVAL 5 DAY, 'Contact 3'),
+    (7, 22, 4, date_effet - INTERVAL 2 YEAR + INTERVAL 8 MONTH, 'Contact 4'),
+    (8, 22, 3, date_effet - INTERVAL 2 YEAR + INTERVAL 8 MONTH + INTERVAL 1 DAY, 'Contact 5'),
+    (9, 2, 3, date_effet - INTERVAL 2 DAY, 'Demande d''information'),
+    (10, 2, 3, date_effet, 'Demande d''annulation d''inscription');
     
     INSERT INTO evenement(id_evenement, nom, date_effet) VALUES
     (1, 'Remise des Diplome', date_effet - INTERVAL 1 YEAR),

@@ -208,16 +208,31 @@ CREATE TABLE IF NOT EXISTS evenement (
 ENGINE = InnoDB;
 
 
+CREATE TABLE IF NOT EXISTS type_echange (
+  id_type_echange INT NOT NULL AUTO_INCREMENT,
+  libelle VARCHAR(45) NOT NULL,
+  PRIMARY KEY (id_type_echange),
+  UNIQUE INDEX libelle_UNIQUE (libelle ASC))
+ENGINE = InnoDB;
+
+
 CREATE TABLE IF NOT EXISTS echange (
   id_echange INT NOT NULL AUTO_INCREMENT,
   id_personne INT NOT NULL,
+  id_type_echange INT NOT NULL,
   instant DATETIME NOT NULL,
   texte TEXT NOT NULL,
   PRIMARY KEY (id_echange),
   INDEX fk_echange_personne1_idx (id_personne ASC),
+  INDEX fk_echange_type_echange1_idx (id_type_echange ASC),
   CONSTRAINT fk_echange_personne1
     FOREIGN KEY (id_personne)
     REFERENCES personne (id_personne)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_echange_type_echange1
+    FOREIGN KEY (id_type_echange)
+    REFERENCES type_echange (id_type_echange)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
