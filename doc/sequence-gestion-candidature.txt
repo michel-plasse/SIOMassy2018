@@ -1,0 +1,13 @@
+@startuml
+participant Navigateur
+participant JavaScript
+participant Controleur
+participant Modele
+Navigateur -> Controleur: GET /candidatures
+Controleur-> Modele: dao = new RechercheCandidature();\ndao.setTri(...);\nList result = dao.getResults();
+Modele --> Controleur: liste des candidatures
+Controleur --> Navigateur: listerCandidature.jsp
+JavaScript -> Controleur: PUT /modifierCandidature?idPersonne=...&idSession=...\navec idEtatCandidature
+Controleur -> Modele: dao = new CandidatureDao()\ndao.update(Candidature candidature);
+
+@enduml
