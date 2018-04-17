@@ -293,6 +293,31 @@ CREATE TABLE IF NOT EXISTS avis (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+CREATE TABLE document (
+	id_document INT NOT NULL AUTO_INCREMENT,
+	id_proprietaire INT NOT NULL,
+	nom VARCHAR(45) NOT NULL,
+	chemin VARCHAR(45) NOT NULL,
+	date_depot DATETIME DEFAULT NOW(),
+	PRIMARY KEY (id_document),
+	UNIQUE INDEX id_document_UNIQUE (id_document ASC),
+	UNIQUE INDEX nom_UNIQUE (nom ASC),
+	CONSTRAINT fk_proprietaire_personne
+		FOREIGN KEY (id_proprietaire)
+		REFERENCES personne (id_personne)
+)ENGINE = InnoDB;
+
+
+CREATE TABLE droit_sur_document (
+	id_document INT NOT NULL,
+	id_session_formation INT NOT NULL,
+	PRIMARY KEY (id_document, id_session_formation),
+	INDEX fk_id_document_idx (id_document ASC),
+	INDEX fk_id_session_formation_idx (id_session_formation ASC)
+)ENGINE = InnoDB;
+
+
 CREATE  OR REPLACE VIEW stagiaire AS
 SELECT p.*, sf.*
 FROM 
@@ -302,3 +327,10 @@ FROM
     INNER JOIN
   session_formation sf ON c.id_session_formation = sf.id_session_formation
 WHERE c.id_etat_candidature = 6;
+
+
+
+CREATE USER IF NOT EXISTS agriotes2018user IDENTIFIED BY 'agriotes2018pwd';
+GRANT ALL ON * TO agriotes2018user;
+GRANT SELECT, EXECUTE ON * TO agriotes2018user;
+GRANT SELECT ON mysql.proc TO  agriotes2018user;
