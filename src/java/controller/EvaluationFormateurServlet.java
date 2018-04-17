@@ -1,7 +1,7 @@
 package controller;
 
 
-import dao.EvaluationFormateurDao;
+import dao.EvaluationDao;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -26,7 +26,7 @@ public class EvaluationFormateurServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String vue = VUE_OK;
         try {
-            EvaluationFormateurDao dao = new EvaluationFormateurDao();
+            EvaluationDao dao = new EvaluationDao();
            //  List<Evaluation> evaluations = dao.getEvaluationByFormateur(personne.getId());
            List<Evaluation> evaluations = dao.getEvaluationByFormateur(23);
             request.setAttribute("evaluation", evaluations);

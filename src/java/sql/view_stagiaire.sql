@@ -1,4 +1,4 @@
-CREATE VIEW stagiaire AS
+   CREATE VIEW stagiaire AS
 	SELECT p.*, sf.*
 	FROM 
 		personne p

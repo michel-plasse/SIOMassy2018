@@ -1,6 +1,6 @@
 package controller;
 
-import dao.EvaluationStagiaireDao;
+import dao.EvaluationDao;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,7 +25,7 @@ public class EvaluationStagiaireServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String vue = VUE_OK;
         try {
-            EvaluationStagiaireDao dao = new EvaluationStagiaireDao();
+            EvaluationDao dao = new EvaluationDao();
             // List<Evaluation> evaluations = dao.getEvaluationByStagiaire();
             List<Evaluation> evaluations = dao.getEvaluationByStagiaire(18);
             request.setAttribute("evaluation", evaluations);
