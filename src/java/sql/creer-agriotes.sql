@@ -294,7 +294,7 @@ CREATE TABLE IF NOT EXISTS avis (
 ENGINE = InnoDB;
 
 
-CREATE TABLE document (
+CREATE TABLE IF NOT EXISTS document (
 	id_document INT NOT NULL AUTO_INCREMENT,
 	id_proprietaire INT NOT NULL,
 	nom VARCHAR(45) NOT NULL,
@@ -309,7 +309,7 @@ CREATE TABLE document (
 )ENGINE = InnoDB;
 
 
-CREATE TABLE droit_sur_document (
+CREATE TABLE IF NOT EXISTS droit_sur_document (
 	id_document INT NOT NULL,
 	id_session_formation INT NOT NULL,
 	PRIMARY KEY (id_document, id_session_formation),
