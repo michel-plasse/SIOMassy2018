@@ -140,14 +140,6 @@ public class InscrireServlet extends HttpServlet {
 
             }
         } else {
-            HttpSession maSession = request.getSession();
-            maSession.setAttribute("nom", nom);
-            maSession.setAttribute("prenom", prenom);
-            maSession.setAttribute("mail", mail);
-            maSession.setAttribute("tel", tel);
-            maSession.setAttribute("adresse", adresse);
-            maSession.setAttribute("codepostal", codepostal);
-            maSession.setAttribute("ville", ville);
             vue = VUE_FORM;
         }
         request.getRequestDispatcher(vue).forward(request, response);

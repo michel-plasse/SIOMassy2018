@@ -7,6 +7,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <div>
         <h1>Nouvelle évaluation</h1>
         <form action="creerEvaluation" method="Post">
             Module :
@@ -23,15 +24,22 @@
                 </c:forEach>
             </select>
             <br/>            
-            Date et heure
+            Date et heure:
             <br/>
             <input type= "datetime"  name = "dateHeure"/>
             <br/>
-            Duree
+            Duree:
             <br/>
             <input type="number" name = "heure"/> (en minutes)
+            <br/>
+            
+            <br/>
+            <p></p>
+            <input  type="submit" value="Soummettre" >
+            <br/>
         </form>
+    </div>
 
-
+        <div><c:if test="${param.btn eq 'Soummettre'}" >${message}</c:if></div>
     </body>
 </html>
