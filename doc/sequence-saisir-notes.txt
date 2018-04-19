@@ -1,0 +1,16 @@
+@startuml
+participant Navigateur
+participant JavaScript
+participant Vue
+participant Controleur
+participant Modèle
+
+Navigateur -> Controleur: GET /saisirNotes?idEvaluation=123
+Controleur -> Modèle: dao = new NoteDao();\nList<Note> notes = dao.getByIdEvaluation(123);
+Controleur -> Controleur: ajoute les notes en request
+Controleur -> Vue: notes.jsp
+Vue -> Navigateur: formulaire avec les stagiaires et leur note
+JavaScript -> Controleur: POST /modifierNote\navec idEvaluation, idPersonne, note
+Controleur -> Modèle: dao.updateNote(...);
+Controleur -> JavaScript: code retour http + message éventuel
+@enduml

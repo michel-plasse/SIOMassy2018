@@ -23,11 +23,11 @@ public class NoteDao {
         sb.append("WHERE note.id_evaluation=?; ");
         NOTES_BY_SESSION = sb.toString();
         sb = new StringBuilder();
-        sb.append("UPDATE note SET note=? WHERE id_personne=? and id evaluation = ?;");
+        sb.append("UPDATE note SET note=? WHERE id_personne=? and id_evaluation = ?;");
         UPDATE_NOTES=sb.toString();
     }
 
-    public List<Note> getNotes(int idEvaluation) throws SQLException {
+    public List<Note> getByIdEvaluation(int idEvaluation) throws SQLException {
         List<Note> result = new ArrayList<>();
         Connection con = Database.getConnection();
         PreparedStatement stmt = con.prepareStatement(NOTES_BY_SESSION);

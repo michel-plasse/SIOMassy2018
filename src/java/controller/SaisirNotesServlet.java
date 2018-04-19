@@ -23,40 +23,26 @@ import model.Note;
  *
  * @author Ferha
  */
-@WebServlet(name = "NoteServlet", urlPatterns = {"/modifierNote"})
-public class NoteServlet extends HttpServlet {
+@WebServlet(name = "NoteServlet", urlPatterns = {"/saisirNotes"})
+public class SaisirNotesServlet extends HttpServlet {
 
-    private final String VUE_FORM = "/WEB-INF/note.jsp";
+    private final String VUE_FORM = "/WEB-INF/notes.jsp";
     private final String VUE_MESSAGE = "/WEB-INF/message.jsp";
     String vue = VUE_FORM;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+        int idEvaluation = 1; // d'abord en dur
         try {
-          //  int idEvaluation = Integer.parseInt(request.getParameter("idEvaluation"));
-           // int idPersonne = Integer.parseInt(request.getParameter("idPersonne"));
-           // double note = Double.parseDouble(request.getParameter("note"));
             NoteDao dao = new NoteDao();
-             List<Note> LesNotes = dao.getNotes(1);
-            request.setAttribute("evaluation", LesNotes);
-            System.out.println("je suis dans la servlet " +LesNotes.get(1).getIdPersonne());
-            
-            //dao.updateNote(idPersonne, idEvaluation, note);
-            //response.sendError(204);
+            List<Note> notes = dao.getByIdEvaluation(idEvaluation);
+            request.setAttribute("notes", notes);
         } catch (SQLException ex) {
-            Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SaisirNotesServlet.class.getName()).log(Level.SEVERE, null, ex);
             request.setAttribute("message", "Problème de bases de données à " + (new Date()));
             vue = VUE_MESSAGE;
         }
-        
         request.getRequestDispatcher(vue).forward(request, response);
     }
 
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
-}
+ }

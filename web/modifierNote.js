@@ -1,19 +1,21 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-$('input').blur(function (e) {
-    var etat =$(e.target).val();
-    var modifier=$(e.target).attr('id');
-    alert("etat: ", etat, " | modifier: ", modifier);
-   $.ajax({
-        url:'NoteServlet',
-        type:'Put',
-        data:{"Etat":etat,"Modifier":modifier}
+$('input').change(function (event) {
+    var note = $(event.target).val();
+    var ids = $(event.target).attr('id').split("-");
+    var params = "idEvaluation=" + ids[0] + "&idPersonne=" + ids[1] + "&note=" + note;
+    $.ajax({
+        url: 'modifierNote',
+        type: 'POST',
+        data: params,
+        beforeSend: function (xhr) {
+            console.log(params);
+        },
+        success: function (response) {
+            console.log("ok");
+        },
+        error: function (errorThrown) {
+            console.log("not sucess :" + errorThrown);
+        }
     });
-   
-      
 });
 
 
