@@ -8,5 +8,5 @@ Navigateur -> Controleur: GET /contact?id=1234
 Controleur -> Controleur: verifie que l'utilisateur est l'administration
 Controleur -> Modèle: ContactDao dao = new ContactDao();\nList<Echange> echanges = dao.getEchangesByIdPersonne(1234);
 Controleur -> Vue: contact.jsp
-Vue -> Navigateur -> coordonnées du contact\n+ historique des echanges\n+ boutons pour actions
+Vue -> Navigateur : coordonnées du contact\n+ historique des echanges\n+ boutons pour actions
 @enduml
