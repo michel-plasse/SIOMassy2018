@@ -29,6 +29,10 @@ public class SessionFormation {
     public LocalDateTime getDateDebut() {
         return dateDebut;
     }
+    
+    public String getDateDebutToString() {
+        return String.valueOf(dateDebut.getDayOfMonth()) + "/" + String.valueOf(dateDebut.getMonthValue()) + "/" + String.valueOf(dateDebut.getYear());
+    }
 
     public void setDateDebut(LocalDateTime dateDebut) {
         this.dateDebut = dateDebut;
@@ -36,6 +40,10 @@ public class SessionFormation {
 
     public LocalDateTime getDateFin() {
         return dateFin;
+    }
+    
+    public String getDateFinToString() {
+        return String.valueOf(dateFin.getDayOfMonth()) + "/" + String.valueOf(dateFin.getMonthValue()) + "/" + String.valueOf(dateFin.getYear());
     }
 
     public void setDateFin(LocalDateTime dateFin) {
