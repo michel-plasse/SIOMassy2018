@@ -25,4 +25,25 @@ public class PersonneDao {
         connection.close();
     }
 
+        public void updatePassword(String pwd, int id) throws SQLException {
+        Connection con = Database.getConnection();
+        String sql = "UPDATE personne SET mot_de_passe = ? WHERE id_personne = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, pwd);
+        stmt.setInt(2, id);
+        stmt.executeUpdate();
+        stmt.close();
+        con.close();
+    }
+
+    public boolean checkPassword(String pwd, int id) throws SQLException {
+        Connection con = Database.getConnection();
+        String sql = "SELECT mot_de_passe FROM personne WHERE id_personne = ? AND mot_de_passe =?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setInt(1, id);
+        stmt.setString(2, pwd);
+        ResultSet resultat = stmt.executeQuery();
+        return resultat.next();
+    }
+    
 }
