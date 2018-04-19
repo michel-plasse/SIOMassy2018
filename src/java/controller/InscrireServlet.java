@@ -10,6 +10,7 @@ import dao.PersonneDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.logging.Level;
@@ -31,7 +32,8 @@ import tools.ServeurSMTP;
  */
 @WebServlet(name = "InscrireServlet", urlPatterns = {"/inscrire"})
 public class InscrireServlet extends HttpServlet {
-    Personne pers=new Personne() ;
+
+    Personne pers = new Personne();
     private final String VUE_FORM = "/WEB-INF/inscription.jsp";
     private final String VUE_MESSAGE = "/WEB-INF/message.jsp";
 
@@ -70,11 +72,11 @@ public class InscrireServlet extends HttpServlet {
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String mail = request.getParameter("mail");
-        
-	String tel = request.getParameter("telephone");
-	tel = tel.replaceAll(" ", "");
-        
-	String adresse = request.getParameter("adresse");
+
+        String tel = request.getParameter("telephone");
+        tel = tel.replaceAll(" ", "");
+
+        String adresse = request.getParameter("adresse");
         String codepostal = request.getParameter("codepostal");
         String ville = request.getParameter("ville");
 
@@ -86,12 +88,12 @@ public class InscrireServlet extends HttpServlet {
             champsvalides = false;
             request.setAttribute("prenom_message", "Veuillez entrer votre prénom.");
         }
-                
+
         if (mail == null || mail.matches("^ *$") || !mail.contains("@")) {
             champsvalides = false;
             request.setAttribute("mail_message", "Veuillez entrer votre e-mail.");
         }
-        
+
         if (tel == null || tel.matches("^ *$") || tel.length() != 10) {
             champsvalides = false;
             request.setAttribute("telephone_message", "Veuillez entrer votre téléphone.");
@@ -108,33 +110,30 @@ public class InscrireServlet extends HttpServlet {
             champsvalides = false;
             request.setAttribute("ville_message", "Veuillez entrer votre ville.");
         }
-        
-        
+
         if (champsvalides) {
             try {
-                try {
-                    Connection con = Database.getConnection();
-                    
-                    PersonneDao pdao = new PersonneDao();
-                    PasswordGenerator randmdp = new PasswordGenerator();
-                    
-                    String mdp = randmdp.getRandomPassword();
-                    
-                    pers = new Personne(0, nom, prenom, mail, tel, adresse, codepostal, ville, mdp);
-                    
-                    pdao.insert(pers);
-                    request.setAttribute("message", "Vous êtes inscrit ");
-                } catch (SQLException ex) {
-                    if (ex.getErrorCode() == Database.DOUBLON) {
-                        request.setAttribute("message", "Cette adresse email existe déjà");
-                        vue = VUE_FORM;
-                    } else {
-                        Logger.getLogger(InscrireServlet.class.getName()).log(Level.SEVERE, null, ex);
-                        request.setAttribute("message", "Problème de bases de données à " + (new Date()));
-                    }
-                }
+                Connection con = Database.getConnection();
+
+                PersonneDao pdao = new PersonneDao();
+                PasswordGenerator randmdp = new PasswordGenerator();
+
+                String mdp = randmdp.getRandomPassword();
+
+                pers = new Personne(0, nom, prenom, mail, tel, adresse, codepostal, ville, mdp);
+
+                pdao.insert(pers);
+                request.setAttribute("message", "Vous êtes inscrit ");
                 ServeurSMTP s = new ServeurSMTP();
                 s.NewEmail(pers.getMail(), pers.getMotDePasse());
+            } catch (SQLException ex) {
+                if (ex.getErrorCode() == Database.DOUBLON) {
+                    request.setAttribute("message", "Cette adresse email existe déjà");
+                    vue = VUE_FORM;
+                } else {
+                    Logger.getLogger(InscrireServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    request.setAttribute("message", "Problème de bases de données à " + (new Date()));
+                }
             } catch (MessagingException ex) {
                 Logger.getLogger(InscrireServlet.class.getName()).log(Level.SEVERE, null, ex);
 
