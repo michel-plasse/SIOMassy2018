@@ -1,0 +1,20 @@
+@startuml
+
+participant Navigateur
+participant Vue
+participant Controleur
+participant Modele
+
+Utilisateur -> Controleur: GET /
+Controleur --> Vue: index.jsp
+Vue --> Navigateur
+Navigateur -> Controleur: POST /connexion avec login, password
+Controleur -> Modele: PersonneDao dao =...;\nPersonne user = dao.getByLoginPassword(login, password)
+Modele --> Controleur: Si ok
+Controleur -> Controleur: ajouter en session le user
+Controleur --> Vue: accueilStagiaire.jsp\n ou accueilFormateur.jsp\n ou accueilAdmin.jsp
+Vue --> Navigateur
+Modele -> Controleur: si pas ok
+Controleur -> Vue: index.jsp
+
+@enduml
