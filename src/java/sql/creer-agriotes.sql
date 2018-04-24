@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS candidature (
   id_personne INT NOT NULL,
   id_session_formation INT NOT NULL,
   id_etat_candidature INT NOT NULL,
+  date_effet DATETIME NOT NULL,
   PRIMARY KEY (id_personne, id_session_formation),
   INDEX fk_candidature_personne1_idx (id_personne ASC),
   INDEX fk_candidature_session_formation1_idx (id_session_formation ASC),
