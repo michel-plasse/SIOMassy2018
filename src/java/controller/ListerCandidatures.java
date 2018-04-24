@@ -26,17 +26,24 @@ public class ListerCandidatures extends HttpServlet {
 
     private final String VUE_OK = "/WEB-INF/listerCandidatures.jsp";
     private final String VUE_ERREUR = "/WEB-INF/message.jsp";
-    
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String vue = VUE_OK;
         try {
+            String etatFilter = request.getParameter("etatFilter");
+            String sessionFilter = request.getParameter("sessionFilter");
             CandidatureDao dao = new CandidatureDao();
-            List<Candidature> candidatures = dao.selectAll();
+            if (etatFilter != null && sessionFilter != null) {
+                dao.setTri(Integer.valueOf(sessionFilter), Integer.valueOf(etatFilter));
+            } else {
+                dao.setTri(0, 0);
+            }
+
+            List<Candidature> candidatures = dao.selectByFilter();
             request.setAttribute("listeCandidature", candidatures);
             request.setAttribute("etatCandidature", new EtatCandidature());
-            
+
         } catch (SQLException exc) {
             exc.printStackTrace();
             request.setAttribute("message", "Pb de bases de données");

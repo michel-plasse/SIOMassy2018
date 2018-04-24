@@ -15,13 +15,24 @@
     </head>
     <body>
         <h1>Liste des candidatures.</h1>
-        
-        <select id="etatFilter">
-            <c:forEach begin="1" end="${etatCandidature.getValues().size()}" varStatus="loop">
-                <option value="${loop.index}">${etatCandidature.getValues().get(loop.index)}</option>
-            </c:forEach>
-        </select>
-        
+        <form action="ListerCandidatures" method="get" >
+            Etat: 
+            <select id="etatFilter" name="etatFilter">
+                <option value="0">Tout voir</option>
+                <c:forEach begin="1" end="${etatCandidature.getValues().size()}" varStatus="loop">
+                    <option value="${loop.index}" <c:if test="${param['etatFilter'] == loop.index}"> selected="selected" </c:if>>${etatCandidature.getValues().get(loop.index)}</option>
+                </c:forEach>
+            </select> <br>
+            Session: 
+            <select id="sessionFiler" name="sessionFilter">
+                <option value="0">Tout voir</option>
+                <c:forEach begin="1" end="4" varStatus="loop">
+                    <option value="${loop.index}" <c:if test="${param['sessionFilter'] == loop.index}"> selected="selected" </c:if>>Session ${loop.index}</option>
+                </c:forEach>
+            </select> <br>
+            <input type="submit">
+        </form>
+
         <table style="border: 1px solid black;border-collapse: collapse;">
             <tr style="border: 1px solid black;">
                 <th style="border: 1px solid black;">Candidat</th>

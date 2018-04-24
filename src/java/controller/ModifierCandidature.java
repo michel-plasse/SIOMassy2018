@@ -29,39 +29,40 @@ public class ModifierCandidature extends HttpServlet {
     private String VUE_OK = "/WEB-INF/modifierCandidature.jsp";
     private String VUE_ERREUR = "/WEB-INF/message.jsp";
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String vue = VUE_OK;
-        int numeroCandidature = Integer.parseInt(request.getParameter("Modifier"));
-        try {
-            CandidatureDao dao = new CandidatureDao();
-            List<Candidature> candidatures = dao.selectAll();
-            Candidature uneCandidature = candidatures.get(numeroCandidature);
-            request.setAttribute("etatCandidature", new EtatCandidature());
-            request.setAttribute("candidature", uneCandidature);
-            request.setAttribute("numeroCandidature", numeroCandidature);
-
-        } catch (SQLException exc) {
-            exc.printStackTrace();
-            request.setAttribute("message", "Pb de bases de données");
-            vue = VUE_ERREUR;
-        }
-        getServletContext().getRequestDispatcher(vue).forward(request, response);
-    }
+//    @Override
+//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        String vue = VUE_OK;
+//        int numeroCandidature = Integer.parseInt(request.getParameter("Modifier"));
+//        try {
+//            CandidatureDao dao = new CandidatureDao();
+//            List<Candidature> candidatures = dao.selectAll();
+//            Candidature uneCandidature = candidatures.get(numeroCandidature);
+//            request.setAttribute("etatCandidature", new EtatCandidature());
+//            request.setAttribute("candidature", uneCandidature);
+//            request.setAttribute("numeroCandidature", numeroCandidature);
+//
+//        } catch (SQLException exc) {
+//            exc.printStackTrace();
+//            request.setAttribute("message", "Pb de bases de données");
+//            vue = VUE_ERREUR;
+//        }
+//        getServletContext().getRequestDispatcher(vue).forward(request, response);
+//    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("--doPost--");
         System.out.println(request.getParameter("Etat"));
         System.out.println(request.getParameter("Modifier"));
         try {
-            
+
             CandidatureDao dao = new CandidatureDao();
             String personne = request.getParameter("Modifier");
-            int idSessionFormation = Integer.parseInt(personne.substring(personne.lastIndexOf("-")+1));
+            int idSessionFormation = Integer.parseInt(personne.substring(personne.lastIndexOf("-") + 1));
             int idPersonne = Integer.parseInt(personne.substring(0, personne.lastIndexOf("-")));
             int idEtatCandidature = Integer.parseInt(request.getParameter("Etat"));
             //System.out.println("new Etat: " + uneCandidature.getEtatCandidature());
-            System.out.println("idPersonne: " + idPersonne + " | idSessionFormation: " + idSessionFormation + " | idEtatCandidature: "+ idEtatCandidature);
+            System.out.println("idPersonne: " + idPersonne + " | idSessionFormation: " + idSessionFormation + " | idEtatCandidature: " + idEtatCandidature);
             dao.updateById(idPersonne, idSessionFormation, idEtatCandidature);
         } catch (SQLException ex) {
             Logger.getLogger(ModifierCandidature.class.getName()).log(Level.SEVERE, null, ex);

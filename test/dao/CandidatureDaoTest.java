@@ -24,13 +24,6 @@ public class CandidatureDaoTest extends DaoTestCase {
     public CandidatureDaoTest() {
     }
 
-    @Test
-    public void testSelectAll() throws Exception {
-        System.out.println("select");
-        CandidatureDao instance = new CandidatureDao();
-        List<Candidature> result = instance.selectAll();
-        assertEquals(24, result.size());
-    }
 
     @Test
     public void testUpdate() throws Exception {
