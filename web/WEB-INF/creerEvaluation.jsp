@@ -26,7 +26,7 @@
             <br/>            
             Date et heure:
             <br/>
-            <input type= "datetime"  name = "dateHeure"/>
+            <input type= "datetime"  name = "dateHeure"/>(aaaa-mm-jj hh-mm)
             <br/>
             Duree:
             <br/>

@@ -67,12 +67,12 @@ public class EvaluationServlet extends HttpServlet {
             Connection con = Database.getConnection();
 
             EvaluationDao eval = new EvaluationDao();
-            Evaluation evaluation = new Evaluation(7, 1, 2, 25,LocalDateTime.now(), 30,"titre");
-            eval.insert(evaluation); 
+            Evaluation evaluation = new Evaluation(8, 1, 2, 23, LocalDateTime.now(), 50, "français");
+            eval.insert(evaluation);
             // verifier les params
             // si ok
-            request.setAttribute("message", "votre evaluation a bien été ajouter ");
-             vue = VUE_MESSAGE;
+//            request.setAttribute("message", "votre evaluation a bien été ajouter ");
+//            vue = VUE_MESSAGE;
             response.sendRedirect("evaluationsFormateur");
             // sinon
             setSessionsEtModules(request);
@@ -82,7 +82,11 @@ public class EvaluationServlet extends HttpServlet {
             if (ex.getErrorCode() == Database.FOREIGN_KEY_NOT_FOUND) {
                 request.setAttribute("message", "Module ou session introuvable");
                 vue = VUE_MESSAGE;
-            } else {
+            } else if (ex.getErrorCode() == Database.DOUBLON) {
+                request.setAttribute("message", "Evaluation de mêmes nom, module et date déjà créée");
+                vue = VUE_MESSAGE;
+            } 
+            else {
                 Logger.getLogger(EvaluationServlet.class.getName()).log(Level.SEVERE, null, ex);
                 request.setAttribute("message", "Problème avec la base de données à " + (new Date()));
                 vue = VUE_MESSAGE;
