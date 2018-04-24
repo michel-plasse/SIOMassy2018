@@ -25,6 +25,14 @@ public class Upload {
         InputStream filecontent = null;
 
         try {
+           
+            // Crée le dossier de stockage s'il n'existe pas.
+            
+            File uploadFolder = new File(PATH);
+            if(!uploadFolder.exists()){
+                uploadFolder.mkdirs();
+            }
+            
             out = new FileOutputStream(new File(PATH + File.separator + nomFichier));
             filecontent = part.getInputStream();
 

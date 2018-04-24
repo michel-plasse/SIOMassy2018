@@ -29,7 +29,7 @@ public class CandidatureDaoTest extends DaoTestCase {
     public void testUpdate() throws Exception {
         System.out.println("update");
         Candidature candidature = new Candidature(
-                new Personne(22, "Lowery", "Mira", "mi.enim@eget.ca", "0623765886", "7126 Cras Rd.", "16920", "Çaldıran", "Etiam"), 
+                new Personne(22, "Lowery", "Mira", "mi.enim@eget.ca", "0623765886", "7126 Cras Rd.", "16920", "Çaldıran", "Etiam", false, false), 
                 new SessionFormation(4, 2, LocalDateTime.of(2018, Month.SEPTEMBER, 3, 10, 0), LocalDateTime.of(2020, Month.MARCH, 3, 10, 0), true), 
                 7,
                 LocalDateTime.now());
