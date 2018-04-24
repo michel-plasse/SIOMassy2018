@@ -17,7 +17,7 @@ public class PersonneDaoTest {
     @Test
     public void testInsert() throws Exception {
         System.out.println("insert");
-        Personne personne = new Personne(1, "palete", "martin", "paleteM@yahoo.fr", "01.45.25.36.98", "3 rue des aulnes", "93600", "aulney", "greta2017");
+        Personne personne = new Personne(1, "palete", "martin", "paleteM@yahoo.fr", "0145253698", "3 rue des aulnes", "93600", "aulney", "greta2017", false, false);
         PersonneDao instance = new PersonneDao();
         instance.insert(personne);
         

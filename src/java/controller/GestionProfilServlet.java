@@ -45,15 +45,12 @@ public class GestionProfilServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String vue = VUE_UPLOAD;
-
         HttpSession session = request.getSession(true);
-
 //        Personne user = (Personne) session.getAttribute("user");
         PersonneDao pdao = new PersonneDao();
 
-        Personne user = new Personne(0, "Paul", "Smith", "popo@gmail.com", "0204020302", "rue du louvres", "89675", "Poil", "pomme");
+        Personne user = new Personne(0, "Paul", "Smith", "popo@gmail.com", "0204020302", "rue du louvres", "89675", "Poil", "pomme", false, false);
 
         if (request.getParameter("uploadphoto") != null) {
 
