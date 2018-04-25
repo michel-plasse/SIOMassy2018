@@ -50,6 +50,7 @@
 				name="codepostal" value="${param['codepostal']}">
                         <c:if test="${codepostal_message != null}">${codepostal_message}</c:if>
 			<p></p>
+                        
 			<label>Ville *</label> <br> <input type="text"
 				placeholder="Votre ville ici" id="ville" name="ville"
                                 value="${param['ville']}">
