@@ -348,6 +348,6 @@ FROM
   formateur ON personne.id_personne = formateur.id_formateur;
 
 CREATE USER IF NOT EXISTS agriotes2018user IDENTIFIED BY 'agriotes2018pwd';
-GRANT ALL ON * TO agriotes2018user;
+GRANT ALL ON agriotes2018.* TO agriotes2018user;
 GRANT SELECT, EXECUTE ON * TO agriotes2018user;
 GRANT SELECT ON mysql.proc TO  agriotes2018user;
