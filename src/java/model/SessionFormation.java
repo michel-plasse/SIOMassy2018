@@ -1,13 +1,15 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class SessionFormation {
 
     private int idSession;
     private int idFormation;
-    LocalDateTime dateDebut;
-    LocalDateTime dateFin;
+    private String nomFormation;
+    private LocalDateTime dateDebut;
+    private LocalDateTime dateFin;
     private boolean estOuverte;
 
     public int getIdSession() {
@@ -16,6 +18,14 @@ public class SessionFormation {
 
     public void setIdSession(int idSession) {
         this.idSession = idSession;
+    }
+
+    public String getNomFormation() {
+        return nomFormation;
+    }
+
+    public void setNomFormation(String nomFormation) {
+        this.nomFormation = nomFormation;
     }
 
     public int getIdFormation() {
@@ -29,7 +39,7 @@ public class SessionFormation {
     public LocalDateTime getDateDebut() {
         return dateDebut;
     }
-    
+
     public String getDateDebutToString() {
         return String.valueOf(dateDebut.getDayOfMonth()) + "/" + String.valueOf(dateDebut.getMonthValue()) + "/" + String.valueOf(dateDebut.getYear());
     }
@@ -41,7 +51,7 @@ public class SessionFormation {
     public LocalDateTime getDateFin() {
         return dateFin;
     }
-    
+
     public String getDateFinToString() {
         return String.valueOf(dateFin.getDayOfMonth()) + "/" + String.valueOf(dateFin.getMonthValue()) + "/" + String.valueOf(dateFin.getYear());
     }
@@ -60,14 +70,13 @@ public class SessionFormation {
 
     @Override
     public String toString() {
-        return "SessionFormation [idSession=" + idSession + ", idFormation=" + idFormation + ", dateDebut=" + dateDebut
-                + ", dateFin=" + dateFin + ", estOuverte=" + estOuverte + "]";
+        return "SessionFormation{" + "idSession=" + idSession + ", idFormation=" + idFormation + ", nomFormation=" + nomFormation + ", dateDebut=" + dateDebut + ", dateFin=" + dateFin + ", estOuverte=" + estOuverte + '}';
     }
 
-    public SessionFormation(int idSession, int idFormation, LocalDateTime dateDebut, LocalDateTime dateFin,
-            boolean estOuverte) {
+    public SessionFormation(int idSession, int idFormation, String nomFormation, LocalDateTime dateDebut, LocalDateTime dateFin, boolean estOuverte) {
         this.idSession = idSession;
         this.idFormation = idFormation;
+        this.nomFormation = nomFormation;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.estOuverte = estOuverte;
@@ -79,14 +88,14 @@ public class SessionFormation {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((dateDebut == null) ? 0 : dateDebut.hashCode());
-        result = prime * result + ((dateFin == null) ? 0 : dateFin.hashCode());
-        result = prime * result + (estOuverte ? 1231 : 1237);
-        result = prime * result + idFormation;
-        result = prime * result + idSession;
-        return result;
+        int hash = 7;
+        hash = 37 * hash + this.idSession;
+        hash = 37 * hash + this.idFormation;
+        hash = 37 * hash + Objects.hashCode(this.nomFormation);
+        hash = 37 * hash + Objects.hashCode(this.dateDebut);
+        hash = 37 * hash + Objects.hashCode(this.dateFin);
+        hash = 37 * hash + (this.estOuverte ? 1 : 0);
+        return hash;
     }
 
     @Override
@@ -100,28 +109,23 @@ public class SessionFormation {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        SessionFormation other = (SessionFormation) obj;
-        if (dateDebut == null) {
-            if (other.dateDebut != null) {
-                return false;
-            }
-        } else if (!dateDebut.equals(other.dateDebut)) {
+        final SessionFormation other = (SessionFormation) obj;
+        if (this.idSession != other.idSession) {
             return false;
         }
-        if (dateFin == null) {
-            if (other.dateFin != null) {
-                return false;
-            }
-        } else if (!dateFin.equals(other.dateFin)) {
+        if (this.idFormation != other.idFormation) {
             return false;
         }
-        if (estOuverte != other.estOuverte) {
+        if (this.estOuverte != other.estOuverte) {
             return false;
         }
-        if (idFormation != other.idFormation) {
+        if (!Objects.equals(this.nomFormation, other.nomFormation)) {
             return false;
         }
-        if (idSession != other.idSession) {
+        if (!Objects.equals(this.dateDebut, other.dateDebut)) {
+            return false;
+        }
+        if (!Objects.equals(this.dateFin, other.dateFin)) {
             return false;
         }
         return true;
