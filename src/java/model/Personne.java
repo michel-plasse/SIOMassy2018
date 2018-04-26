@@ -74,6 +74,15 @@ public class Personne {
   public void setTel(String tel) {
     this.tel = tel;
   }
+  
+  public String getFormatedTel() {
+      StringBuilder stringBuilder = new StringBuilder();
+      for (int i = 0; i < tel.length(); i += 2) {
+          stringBuilder.append(tel.substring(i, i + 2));
+          stringBuilder.append(" ");
+      }
+      return stringBuilder.toString();
+  }
 
   public String getAdresse() {
     return adresse;

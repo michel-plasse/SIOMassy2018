@@ -9,6 +9,8 @@ BEGIN
 
    SET FOREIGN_KEY_CHECKS=0;
       TRUNCATE TABLE candidature;
+      TRUNCATE TABLE document;
+      TRUNCATE TABLE droit_sur_document;
       TRUNCATE TABLE echange;
       TRUNCATE TABLE etat_candidature;
       TRUNCATE TABLE evaluation;
@@ -53,10 +55,9 @@ BEGIN
     (24,'Perry','Risa','vehicula.et.rutrum@vestibulumnec.ca','0244675879','349-3030 Quis St.','75013','Belgaum','rutrum'),
     (25,'Salas','Dawn','suscipit.nonummy@nuncnullavulputate.com','0906234912','3575 Sed, Rd.','69390','Slijpe','velit'),
     (26,'Mack','Jamalia','est.Nunc.ullamcorper@eratin.net','0686512886','740-7306 Pellentesque Road','33310','Sarreguemines','dolor'),
-    (27,'Hurley','Sydnee','facilisis.eget@tricesiaculis.com','0423930467','P.O. Box 411, 3268 Eu St.','86635','Nanded','ac');
-    INSERT INTO personne(id_personne, nom, prenom, mail, tel, adresse, code_postal, ville, mot_de_passe, est_administration) VALUES
-    (28, 'Marie', 'Durand', 'marie.durand@free.fr', '0612345678', '5 Place de la République', '75010', 'Paris', '12345678', 1),
-    (29, 'Lucie', 'Dupuis', 'lucie.dupuis@free.fr', '0602457866', '10 Bd Beamarchais', '75011', 'Paris', 'azerty', 1);
+    (27,'Hurley','Sydnee','facilisis.eget@tricesiaculis.com','0423930467','P.O. Box 411, 3268 Eu St.','86635','Nanded','ac'),
+    (28, 'Marie', 'Durand', 'marie.durand@free.fr', '0612345678', '5 Place de la République', '75010', 'Paris', '12345678'),
+    (29, 'Lucie', 'Dupuis', 'lucie.dupuis@free.fr', '0602457866', '10 Bd Beamarchais', '75011', 'Paris', 'azerty');
     
     INSERT INTO formation(id_formation, nom, description) VALUES
     (1, 'SIO SLAM', 'BTS SIO option programmation'),
@@ -224,6 +225,25 @@ BEGIN
     (2, 1),
     (2, 2),
     (22, 2);
+
+    INSERT INTO document(id_document, id_proprietaire, nom, chemin, date_depot) VALUES
+    (1, 23, 'document_1', '/agriotes2018/documents/', date_effet - INTERVAL 5 MONTH),
+    (2, 23, 'HTML pour les nuls', '/agriotes2018/documents/', date_effet - INTERVAL 2 YEAR + INTERVAL 3 MONTH),
+    (3, 24, 'Calcule des matrice', '/agriotes2018/documents/', date_effet - INTERVAL 8 MONTH),
+    (4, 25, 'L_art_de_la_gestion_de_stock',  '/agriotes2018/documents/', date_effet - INTERVAL 1 YEAR + INTERVAL 6 MONTH),
+    (5, 24, 'Bescherelle', '/agriotes2018/documents/Bescherelle', date_effet);
+
+    INSERT INTO droit_sur_document(id_document, id_session_formation) VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3),
+    (2, 1),
+    (2, 2),
+    (3, 1),
+    (3, 2),
+    (3, 3),
+    (4, 2),
+    (5, 1);
 
 END$$
 

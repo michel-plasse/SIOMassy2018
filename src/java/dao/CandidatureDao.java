@@ -51,6 +51,7 @@ public class CandidatureDao {
             sessionFormation = new SessionFormation(
                     rs.getInt("id_session_formation"),
                     rs.getInt("id_formation"),
+                    rs.getString("nom_formation"),
                     rs.getTimestamp("date_debut").toLocalDateTime(),
                     rs.getTimestamp("date_fin").toLocalDateTime(),
                     rs.getBoolean("est_ouverte"));
@@ -96,11 +97,12 @@ public class CandidatureDao {
 
     public void setTri(int idSessionFormation, int idEtatCandidature) {
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT p.*, c.*, sf.*\n"
+        sb.append("SELECT p.*, c.*, sf.*, f.nom as nom_formation\n"
                 + "from personne p\n"
                 + "inner join candidature c on p.id_personne = c.id_personne\n"
                 + "inner join etat_candidature e on e.id_etat_candidature = c.id_etat_candidature\n"
                 + "inner join session_formation sf on c.id_session_formation = sf.id_session_formation\n"
+                + "inner join formation f on sf.id_formation = f.id_formation\n"
                 + "WHERE est_ouverte = true\n");
 
         if (idEtatCandidature > 0 && idSessionFormation == 0) {

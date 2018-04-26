@@ -13,13 +13,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import model.Document;
 import model.Personne;
-import model.SessionFormation;
 
 /**
  *
  * @author YohanMA
  */
-
 public class DocumentsDao {
 
     public Boolean isProprietaire(Personne p, int id_document) throws SQLException {
@@ -33,6 +31,10 @@ public class DocumentsDao {
         stmt.setInt(1, id_document);
 
         ResultSet resultat = stmt.executeQuery();
+
+        stmt.close();
+        connection.close();
+
         return resultat.getInt("id_proprietaire") == p.getId();
     }
 
@@ -47,6 +49,10 @@ public class DocumentsDao {
         stmt.setInt(1, p.getId());
 
         ResultSet resultat = stmt.executeQuery();
+
+        stmt.close();
+        connection.close();
+
         return resultat.getBoolean("est_formateur");
     }
 
@@ -61,6 +67,10 @@ public class DocumentsDao {
         stmt.setInt(1, p.getId());
 
         ResultSet resultat = stmt.executeQuery();
+
+        stmt.close();
+        connection.close();
+
         return resultat.getBoolean("est_administration");
     }
 
@@ -107,37 +117,6 @@ public class DocumentsDao {
         }
     }
 
-    public ArrayList<SessionFormation> getSessionByDocument(int idDocument) throws SQLException{
-        ArrayList<SessionFormation> lesSession = new ArrayList<>();
-        Connection connection = Database.getConnection();
-        
-        String sql = "SELECT *"
-                + " FROM session_formation sf"
-                + " INNER JOIN"
-                + " droit_sur_document dsd ON sf.id_session_formation = dsd.id_session_formation"
-                + " WHERE dsd.id_document = ?";
-        
-        PreparedStatement stmt = connection.prepareCall(sql);
-        stmt.setInt(1, idDocument);
-        
-        ResultSet resultat = stmt.executeQuery();
-        
-        while(resultat.next()){
-            lesSession.add(new SessionFormation(
-                        resultat.getInt("id_session_formation"),
-                        resultat.getInt("id_formation"),
-                        resultat.getTimestamp("date_debut").toLocalDateTime(),
-                        resultat.getTimestamp("date_fin").toLocalDateTime(),
-                        resultat.getBoolean("est_ouverte")
-            ));
-        }
-        
-        stmt.close();
-        connection.close();
-        
-        return lesSession;
-    }
-    
     public ArrayList<Document> getDocumentBySession(int idSession) throws SQLException {
         ArrayList<Document> lesDocs = new ArrayList<>();
         Connection connection = Database.getConnection();
@@ -167,41 +146,38 @@ public class DocumentsDao {
         return lesDocs;
     }
 
-    public ArrayList<Document> getAllDocument(Personne p) throws SQLException {
+    public ArrayList<Document> getAllDocumentByPersonne(Personne p) throws SQLException {
         ArrayList<Document> lesDocs = new ArrayList<>();
         Connection connection = Database.getConnection();
-        ResultSet resultat = null;
         String sql;
 
-        if (isAdmin(p) || isFormateur(p)) {
+        if (p.isEstAdministration() || p.isEstFormateur()) {
             sql = "SELECT * FROM document";
-            Statement stmt = connection.createStatement();
-            resultat = stmt.executeQuery(sql);
-            
         } else {
-            sql = "SELECT * FROM document"
+            sql = "SELECT DISTINCT d.id_document, d.id_proprietaire, d.nom, d.chemin, d.date_depot FROM document d"
                     + " INNER JOIN"
-                    + " droit_sur_document dsd ON document.id_document = dsd.id_document"
+                    + " droit_sur_document dsd ON d.id_document = dsd.id_document"
                     + " INNER JOIN"
                     + " session_formation sf ON dsd.id_session_formation = sf.id_session_formation"
                     + " INNER JOIN"
                     + " candidature c ON sf.id_session_formation = c.id_session_formation"
-                    + " WHERE c.id_personne = ?";
-
-            PreparedStatement stmt = connection.prepareCall(sql);
-            stmt.setInt(1, p.getId());
-            resultat = stmt.executeQuery(sql);
+                    + " WHERE c.id_personne = " + p.getId();
         }
+
+        Statement stmt = connection.createStatement();
+        ResultSet resultat = stmt.executeQuery(sql);
         
         while (resultat.next()) {
             lesDocs.add(new Document(
                     resultat.getInt("id_document"),
-                    resultat.getInt("id_prorietaire"),
+                    resultat.getInt("id_proprietaire"),
                     resultat.getString("nom"),
                     resultat.getString("chemin"),
                     resultat.getTimestamp("date_depot").toLocalDateTime())
             );
         }
+
+        connection.close();
         return lesDocs;
     }
 
