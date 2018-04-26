@@ -1,0 +1,82 @@
+@charset "UTF-8";
+/* font-family:'Raleway', sans-serif; */
+body, html {
+    padding: 0;
+    margin: 0;
+}
+body {
+    margin-top: 3em;
+    font-family: 'Raleway',sans-serif;
+    background-image: url(../img/ban.png);
+    background-size: cover;
+}
+#menu {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: white;
+}
+#menu a {
+    display: inline-block;
+    margin: 10px;
+}
+#menu a:hover {
+    color: #2C3E50;
+}
+h1 {
+    color: #2C3E50;
+    background-color: white;
+    text-align: center;
+    font-size: 200%;
+}
+/* bannière*/
+/*
+.banner {
+    width: 100%;
+    max-width: 100%;
+}
+.ban {
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+}
+.ban img {
+    width: 100%;
+    max-width: 100%;
+}
+.inner-banner {
+    position: absolute;
+    top: 40%;
+    width: 100%;
+    text-align: center;
+}
+a, a:hover {
+    text-decoration: none;
+
+}
+.container-fluid {
+    padding: 0;
+}
+.separator {
+    height: 3px;
+    width: 5%;
+    border: none;
+    box-shadow: none;
+    background-color: #34980B;
+}
+
+.header {
+    background-color: #34980B;
+    height: 70px;
+    line-height: 70px;
+}
+.logo {
+    color: #ffffff;
+    text-transform:uppercase;
+    font-weight:bold;
+    letter-spacing:1px;
+    float: left;
+}
+*/

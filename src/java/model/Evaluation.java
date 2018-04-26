@@ -6,6 +6,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  *
@@ -35,6 +36,64 @@ public class Evaluation {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public Evaluation() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String toString() {
+        return "Evaluation{" + "idEvaluation=" + idEvaluation + ", idModule=" + idModule + ", idSessionFormation=" + idSessionFormation + ", idFormateur=" + idFormateur + ", dateDebut=" + dateDebut + ", nbMinutes=" + nbMinutes + ", titre=" + titre + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + this.idEvaluation;
+        hash = 79 * hash + this.idModule;
+        hash = 79 * hash + this.idSessionFormation;
+        hash = 79 * hash + this.idFormateur;
+        hash = 79 * hash + Objects.hashCode(this.dateDebut);
+        hash = 79 * hash + this.nbMinutes;
+        hash = 79 * hash + Objects.hashCode(this.titre);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Evaluation other = (Evaluation) obj;
+        if (this.idEvaluation != other.idEvaluation) {
+            return false;
+        }
+        if (this.idModule != other.idModule) {
+            return false;
+        }
+        if (this.idSessionFormation != other.idSessionFormation) {
+            return false;
+        }
+        if (this.idFormateur != other.idFormateur) {
+            return false;
+        }
+        if (this.nbMinutes != other.nbMinutes) {
+            return false;
+        }
+        if (!Objects.equals(this.titre, other.titre)) {
+            return false;
+        }
+        if (!Objects.equals(this.dateDebut, other.dateDebut)) {
+            return false;
+        }
+        return true;
+    }
+    
     public int getIdEvaluation() {
         return idEvaluation;
     }

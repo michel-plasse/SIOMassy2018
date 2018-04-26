@@ -19,7 +19,6 @@ import model.Personne;
 public class EvaluationStagiaireServlet extends HttpServlet {
     private final String VUE_OK = "/WEB-INF/evaluationsStagiaire.jsp";
     private final String VUE_ERREUR = "/WEB-INF/message.jsp";
-    Personne personne = new Personne();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

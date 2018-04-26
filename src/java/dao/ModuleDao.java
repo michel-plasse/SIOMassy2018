@@ -23,7 +23,7 @@ public class ModuleDao {
     public Map<Integer, String> getAll() throws SQLException {
         Map<Integer, String> result = new HashMap<>();
         Connection con = Database.getConnection();
-        String requete = "SELECT * FROM module ORDER BY nom ASC";
+        String requete = "SELECT* FROM module ORDER BY nom ASC";
         Statement canal = con.createStatement();
         ResultSet rs = canal.executeQuery(requete);
         while (rs.next()) {
