@@ -11,13 +11,11 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-    <header class="container-fluid header">
+    <header class="container-fluid header" >
       <div class="container">
         <a href="index.html"><img src="img/DAFCO.png" alt="logo du site" /></a>
-        <!--a href="#" class="logo"> Agriote </a-->
         <nav class="menu">
-          <a href="formation.html"> Formation </a>
-          <a href="informations.html"> Information </a>
+          <a href="sessionsOuvertes"> Formation </a>
           <a href="connexion"> Se connecter</a>
           <a href="inscrire"> S'inscrire</a>
           <a href="contact.html"> Contact </a>
