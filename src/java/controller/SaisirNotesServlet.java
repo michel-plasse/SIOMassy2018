@@ -26,8 +26,8 @@ import model.Note;
 @WebServlet(name = "NoteServlet", urlPatterns = {"/saisirNotes"})
 public class SaisirNotesServlet extends HttpServlet {
 
-    private final String VUE_FORM = "/WEB-INF/notes.jsp";
-    private final String VUE_MESSAGE = "/WEB-INF/message.jsp";
+    private final String VUE_FORM = "/WEB-INF/notes.jsp"; 
+    private final String VUE_MESSAGE = "/WEB-INF/messapge.jsp";
     String vue = VUE_FORM;
 
     @Override

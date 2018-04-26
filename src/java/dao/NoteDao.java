@@ -18,8 +18,8 @@ public class NoteDao {
     // bloc d'initialisation des attributs static
     static {
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT id_evaluation,id_personne,note ");
-        sb.append("FROM note ");
+        sb.append("SELECT note.id_evaluation,note.id_personne,nom,prenom,note.note ");
+        sb.append("FROM note INNER JOIN personne ON note.id_personne=personne.id_personne ");
         sb.append("WHERE note.id_evaluation=?; ");
         NOTES_BY_SESSION = sb.toString();
         sb = new StringBuilder();
@@ -37,7 +37,9 @@ public class NoteDao {
             Note uneNote = new Note(
                     rs.getInt("note.id_evaluation"),
                     rs.getInt("note.id_personne"),
-                    rs.getDouble("note"));
+                    rs.getString("nom"),
+                    rs.getString("prenom"),
+                    rs.getDouble("note.note"));
             result.add(uneNote);
         }
         return result;

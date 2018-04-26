@@ -7,21 +7,24 @@
         <title>Note</title>
     </head>
     <body>
-        <h1>Note</h1>
-        <br>
-        <table style="border: 1px solid black;border-collapse: collapse;">
+        <h1>Evaluation </h1>
+        <table>
             <tr>
-                <th>id_evaluation</th>
-                <th>id_personne</th>
-                <th>note</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Note</th>
             </tr>
 
             <c:forEach items="${notes}" var="uneNote">
                 <tr>
-                    <td>${uneNote.idEvaluation}</td>
-                    <td>${uneNote.idPersonne}</td>
+                    <td>${uneNote.nom}</td>
+                    <td>${uneNote.prenom}</td>
                     <td>
-                        <input type="text" id="${uneNote.idEvaluation}-${uneNote.idPersonne}" value="${uneNote.note}"/>
+                        <input type="text" step="any" min="0" max="20" 
+                               id="${uneNote.idEvaluation}-${uneNote.idPersonne}"  
+                               name="${uneNote.idEvaluation}-${uneNote.idPersonne}" 
+                               value="${uneNote.note}"/>
+                        <span id="message${uneNote.idPersonne}"></span>
                     </td>
                 </tr>
             </c:forEach>
@@ -29,7 +32,6 @@
 
         <script src="jquery.min.js"></script>
         <script src="modifierNote.js"></script>
-        
     </body>
 </html>
 
