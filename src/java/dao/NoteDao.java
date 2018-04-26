@@ -18,9 +18,10 @@ public class NoteDao {
     // bloc d'initialisation des attributs static
     static {
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT note.id_evaluation,note.id_personne,nom,prenom,note.note ");
-        sb.append("FROM note INNER JOIN personne ON note.id_personne=personne.id_personne ");
-        sb.append("WHERE note.id_evaluation=?; ");
+        sb.append("SELECT note.id_evaluation,note.id_personne,nom,prenom,note.note,evaluation.titre");
+        sb.append(" FROM personne INNER JOIN note ON note.id_personne=personne.id_personne");
+        sb.append(" INNER JOIN evaluation ON evaluation.id_evaluation=note.id_evaluation");
+        sb.append(" WHERE note.id_evaluation=1;");
         NOTES_BY_SESSION = sb.toString();
         sb = new StringBuilder();
         sb.append("UPDATE note SET note=? WHERE id_personne=? and id_evaluation = ?;");
@@ -31,7 +32,7 @@ public class NoteDao {
         List<Note> result = new ArrayList<>();
         Connection con = Database.getConnection();
         PreparedStatement stmt = con.prepareStatement(NOTES_BY_SESSION);
-        stmt.setInt(1, idEvaluation);
+       // stmt.setInt(1, idEvaluation);
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             Note uneNote = new Note(
@@ -39,7 +40,8 @@ public class NoteDao {
                     rs.getInt("note.id_personne"),
                     rs.getString("nom"),
                     rs.getString("prenom"),
-                    rs.getDouble("note.note"));
+                    rs.getDouble("note.note"),
+                    rs.getString("evaluation.titre"));
             result.add(uneNote);
         }
         return result;

@@ -21,13 +21,15 @@ public class Note {
     private String nom;
     private String prenom;
     private double  note;
+    private String titre;
 
-    public Note(int idEvaluation, int idPersonne, String nom, String prenom, double note) {
+    public Note(int idEvaluation, int idPersonne, String nom, String prenom, double note, String titre) {
         this.idEvaluation = idEvaluation;
         this.idPersonne = idPersonne;
         this.nom = nom;
         this.prenom = prenom;
         this.note = note;
+        this.titre = titre;
     }
 
     public Personne getPersonne() {
@@ -78,4 +80,14 @@ public class Note {
         this.note = note;
     }
 
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
+
+    
+   
 }

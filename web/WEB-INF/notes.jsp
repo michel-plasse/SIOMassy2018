@@ -7,7 +7,7 @@
         <title>Note</title>
     </head>
     <body>
-        <h1>Evaluation </h1>
+        <h1> ${titre}</h1>
         <table>
             <tr>
                 <th>Nom</th>
