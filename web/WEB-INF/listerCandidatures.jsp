@@ -35,7 +35,9 @@
 
         <table style="border: 1px solid black;border-collapse: collapse;">
             <tr style="border: 1px solid black;">
-                <th style="border: 1px solid black;">Candidat</th>
+                <th style="border: 1px solid black;">Date de candidature</th>
+                <th style="border: 1px solid black;">Nom du candidat</th>
+                <th style="border: 1px solid black;">Contact du candidat</th>
                 <th style="border: 1px solid black;">Formation</th>
                 <th style="border: 1px solid black;">Statut</th>
             </tr>
@@ -43,17 +45,18 @@
             <c:forEach items="${listeCandidature}" var="uneCandidature" varStatus="boucle">
                 <tr style="border: 1px solid black;">
                     <td style="border: 1px solid black;">
-                        <c:out value="${uneCandidature.getDateEffetToString()}" /> <br>
-                        <c:out value="${uneCandidature.getPersonne().getNom()}" /> <c:out value="${uneCandidature.getPersonne().getPrenom()}" /> <br>
-                        <a href="mailto:<c:out value="${uneCandidature.getPersonne().getMail()}" />"><c:out value="${uneCandidature.getPersonne().getMail()}" /></a>  <br>
-                        <c:out value="${uneCandidature.getPersonne().getTel()}" /> 
+                        <c:out value="${uneCandidature.getDateEffetToString()}" />
                     </td>
                     <td style="border: 1px solid black;">
-                        ID Formation: <c:out value="${uneCandidature.getSessionFormation().getIdFormation()}" /> <br>
-                        ID Session: <c:out value="${uneCandidature.getSessionFormation().getIdSession()}" /> <br>
-                        Date debut: <c:out value="${uneCandidature.getSessionFormation().getDateDebutToString()}" /> <br>
-                        Date fin: <c:out value="${uneCandidature.getSessionFormation().getDateFinToString()}" /> <br>
-                        Est ouverte: <c:out value="${uneCandidature.getSessionFormation().getEstOuverte()}" /> <br>
+                        <c:out value="${uneCandidature.getPersonne().getNom()}" /> <c:out value="${uneCandidature.getPersonne().getPrenom()}" />
+                    </td>
+                    <td style="border: 1px solid black;">
+                        <a href="mailto:<c:out value="${uneCandidature.getPersonne().getMail()}" />"><c:out value="${uneCandidature.getPersonne().getMail()}" /></a><br>
+                        <c:out value="${uneCandidature.getPersonne().getFormatedTel()}" /> 
+                    </td>
+                    <td style="border: 1px solid black;">
+                        <c:out value="${uneCandidature.getSessionFormation().getNomFormation()}" /> <c:out value="${uneCandidature.getSessionFormation().getIdSession()}" /> <br>
+                        (<c:out value="${uneCandidature.getSessionFormation().getDateDebutToString()}" /> à <c:out value="${uneCandidature.getSessionFormation().getDateFinToString()}" />)
                     </td>
                     <td style="border: 1px solid black;">
                         <select id="<c:out value="${uneCandidature.getPersonne().getId()}"/>-<c:out value="${uneCandidature.getSessionFormation().getIdSession()}" />">
