@@ -18,95 +18,49 @@ import model.Personne;
  *
  * @author YohanMA
  */
+
 public class DocumentsDao {
-
-    public Boolean isProprietaire(Personne p, int id_document) throws SQLException {
-        Connection connection = Database.getConnection();
-
-        String sql = "SELECT id_proprietaire"
-                + " FROM document"
-                + " WHERE id_document = ?";
-
-        PreparedStatement stmt = connection.prepareCall(sql);
-        stmt.setInt(1, id_document);
-
-        ResultSet resultat = stmt.executeQuery();
-
-        stmt.close();
-        connection.close();
-
-        return resultat.getInt("id_proprietaire") == p.getId();
-    }
-
-    public Boolean isFormateur(Personne p) throws SQLException {
-        Connection connection = Database.getConnection();
-
-        String sql = "SELECT est_formateur"
-                + " FROM personne"
-                + " WHERE id_personne = ?";
-
-        PreparedStatement stmt = connection.prepareCall(sql);
-        stmt.setInt(1, p.getId());
-
-        ResultSet resultat = stmt.executeQuery();
-
-        stmt.close();
-        connection.close();
-
-        return resultat.getBoolean("est_formateur");
-    }
-
-    public Boolean isAdmin(Personne p) throws SQLException {
-        Connection connection = Database.getConnection();
-
-        String sql = "SELECT est_administration"
-                + " FROM personne"
-                + " WHERE id_personne = ?";
-
-        PreparedStatement stmt = connection.prepareCall(sql);
-        stmt.setInt(1, p.getId());
-
-        ResultSet resultat = stmt.executeQuery();
-
-        stmt.close();
-        connection.close();
-
-        return resultat.getBoolean("est_administration");
-    }
-
+    
     public void ajouter(Personne p, Document doc, ArrayList<Integer> listeSession) throws SQLException {
 
-        if (isFormateur(p) || isAdmin(p)) {
+        if (p.isEstAdministration()|| p.isEstFormateur()) {
 
             Connection connection = Database.getConnection();
             connection.setAutoCommit(false);
 
             try {
-                String sql = "INSERT INTO document (id_document, id_proprietaire, nom, chemin, date_depot)"
-                        + " VALUES (?, ?, ?, ?, NOW())";
+                String sql = "INSERT INTO document (id_proprietaire, nom, chemin, date_depot)"
+                        + " VALUES (?, ?, ?, NOW())";
 
                 PreparedStatement stmt = connection.prepareStatement(sql);
-                stmt.setInt(1, doc.getId());
-                stmt.setInt(2, doc.getId_proprietaire());
-                stmt.setString(3, doc.getNom());
-                stmt.setString(4, doc.getChemin());
+                stmt.setInt(1, doc.getIdProprietaire());
+                stmt.setString(2, doc.getNom());
+                stmt.setString(3, doc.getChemin());
 
                 stmt.executeUpdate();
                 stmt.close();
+                
+                String needIdDocument = "SELECT id_document FROM document WHERE nom = ?";
+                PreparedStatement stmt2 = connection.prepareStatement(needIdDocument);
+                stmt2.setString(1, doc.getNom());
+                
+                ResultSet resultat = stmt2.executeQuery();
+                int idDocument = resultat.getInt("id_document");
+                stmt2.close();
 
                 String droit = "INSERT INTO droit_sur_doc (id_document, id_session_formation)"
                         + " VALUES (?, ?)";
 
-                for (Integer id_session : listeSession) {
+                for (Integer idSession : listeSession) {
 
-                    PreparedStatement stmt2 = connection.prepareCall(droit);
-                    stmt2.setInt(1, doc.getId());
-                    stmt2.setInt(2, id_session);
+                    PreparedStatement stmt3 = connection.prepareCall(droit);
+                    stmt3.setInt(1, idDocument);
+                    stmt3.setInt(2, idSession);
 
-                    stmt2.executeUpdate();
-                    stmt2.close();
-
+                    stmt3.executeUpdate();
+                    stmt3.close();
                 }
+                
                 connection.commit();
 
             } catch (SQLException e) {
@@ -136,7 +90,6 @@ public class DocumentsDao {
                     resultat.getInt("id_document"),
                     resultat.getInt("id_prorietaire"),
                     resultat.getString("nom"),
-                    resultat.getString("chemin"),
                     resultat.getTimestamp("date_depot").toLocalDateTime())
             );
         }
@@ -152,7 +105,7 @@ public class DocumentsDao {
         String sql;
 
         if (p.isEstAdministration() || p.isEstFormateur()) {
-            sql = "SELECT * FROM document";
+            sql = "SELECT * FROM document ORDER BY date_depot DESC";
         } else {
             sql = "SELECT DISTINCT d.id_document, d.id_proprietaire, d.nom, d.chemin, d.date_depot FROM document d"
                     + " INNER JOIN"
@@ -161,18 +114,17 @@ public class DocumentsDao {
                     + " session_formation sf ON dsd.id_session_formation = sf.id_session_formation"
                     + " INNER JOIN"
                     + " candidature c ON sf.id_session_formation = c.id_session_formation"
-                    + " WHERE c.id_personne = " + p.getId();
+                    + " WHERE c.id_personne = " + p.getId() + " AND c.id_etat_candidature = 6 ORDER BY d.date_depot DESc";
         }
 
         Statement stmt = connection.createStatement();
         ResultSet resultat = stmt.executeQuery(sql);
-        
+
         while (resultat.next()) {
             lesDocs.add(new Document(
                     resultat.getInt("id_document"),
                     resultat.getInt("id_proprietaire"),
                     resultat.getString("nom"),
-                    resultat.getString("chemin"),
                     resultat.getTimestamp("date_depot").toLocalDateTime())
             );
         }
@@ -183,7 +135,7 @@ public class DocumentsDao {
 
     public void supprimer(Personne p, int idDocument) throws SQLException {
         Connection connection = Database.getConnection();
-        if (isProprietaire(p, idDocument) || isAdmin(p)) {
+        if (p.isEstAdministration() || p.isEstFormateur()) {
 
             String sql = "DELETE FROM document"
                     + " WHERE id_document = ?";
@@ -199,7 +151,7 @@ public class DocumentsDao {
 
     public void modifierNomDocument(Personne p, int idDocument, String nouveauNom) throws SQLException {
 
-        if (isProprietaire(p, idDocument) || isAdmin(p)) {
+        if (p.isEstAdministration() || p.isEstFormateur()) {
 
             Connection connection = Database.getConnection();
             String sql = "UPDATE document"
