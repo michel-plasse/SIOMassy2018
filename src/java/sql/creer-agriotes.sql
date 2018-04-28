@@ -300,7 +300,7 @@ CREATE TABLE IF NOT EXISTS document (
   id_document INT NOT NULL AUTO_INCREMENT,
   id_proprietaire INT NOT NULL,
   nom VARCHAR(45) NOT NULL,
-  chemin VARCHAR(45) NOT NULL,
+  chemin VARCHAR(100) NOT NULL,
   date_depot DATETIME DEFAULT NOW(),
   PRIMARY KEY (id_document),
   UNIQUE INDEX id_document_UNIQUE (id_document ASC),

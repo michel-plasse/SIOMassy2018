@@ -13,62 +13,69 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import model.Document;
 import model.Personne;
+import model.SessionFormation;
 
 /**
  *
  * @author YohanMA
  */
-
 public class DocumentsDao {
-    
-    public void ajouter(Personne p, Document doc, ArrayList<Integer> listeSession) throws SQLException {
 
-        if (p.isEstAdministration()|| p.isEstFormateur()) {
+    public int getIdDocumentByName(Document doc) throws SQLException {
+        int idDocument = 0;
+        Connection connection = Database.getConnection();
+        String sql = "SELECT id_document FROM document WHERE nom = ?";
+
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, doc.getNom());
+
+        ResultSet resultat = stmt.executeQuery();
+        while(resultat.next()){
+            idDocument = resultat.getInt("id_document");
+        }
+
+        stmt.close();
+        connection.close();
+
+        return idDocument;
+    }
+
+    public void ajouterDocument(Personne p, Document doc) throws SQLException {
+
+        if (p.isEstAdministration() || p.isEstFormateur()) {
 
             Connection connection = Database.getConnection();
-            connection.setAutoCommit(false);
 
-            try {
-                String sql = "INSERT INTO document (id_proprietaire, nom, chemin, date_depot)"
-                        + " VALUES (?, ?, ?, NOW())";
+            String sql = "INSERT INTO document (id_proprietaire, nom, chemin, date_depot)"
+                    + " VALUES (?, ?, ?, NOW())";
 
-                PreparedStatement stmt = connection.prepareStatement(sql);
-                stmt.setInt(1, doc.getIdProprietaire());
-                stmt.setString(2, doc.getNom());
-                stmt.setString(3, doc.getChemin());
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, doc.getIdProprietaire());
+            stmt.setString(2, doc.getNom());
+            stmt.setString(3, doc.getChemin());
 
-                stmt.executeUpdate();
-                stmt.close();
-                
-                String needIdDocument = "SELECT id_document FROM document WHERE nom = ?";
-                PreparedStatement stmt2 = connection.prepareStatement(needIdDocument);
-                stmt2.setString(1, doc.getNom());
-                
-                ResultSet resultat = stmt2.executeQuery();
-                int idDocument = resultat.getInt("id_document");
-                stmt2.close();
-
-                String droit = "INSERT INTO droit_sur_doc (id_document, id_session_formation)"
-                        + " VALUES (?, ?)";
-
-                for (Integer idSession : listeSession) {
-
-                    PreparedStatement stmt3 = connection.prepareCall(droit);
-                    stmt3.setInt(1, idDocument);
-                    stmt3.setInt(2, idSession);
-
-                    stmt3.executeUpdate();
-                    stmt3.close();
-                }
-                
-                connection.commit();
-
-            } catch (SQLException e) {
-                connection.rollback();
-            }
-
+            stmt.executeUpdate();
+            stmt.close();
             connection.close();
         }
+    }
+
+    public void ajouterDroitDocument(int idDocument, ArrayList<Integer> listeSessions) throws SQLException {
+        Connection connection = Database.getConnection();
+
+        for (Integer idSession : listeSessions) {
+
+            String droit = "INSERT INTO droit_sur_document (id_document, id_session_formation)"
+                    + " VALUES (?, ?)";
+
+            PreparedStatement stmt = connection.prepareCall(droit);
+            stmt.setInt(1, idDocument);
+            stmt.setInt(2, idSession);
+
+            stmt.executeUpdate();
+            stmt.close();
+        }
+        connection.close();
     }
 
     public ArrayList<Document> getDocumentBySession(int idSession) throws SQLException {
@@ -114,7 +121,7 @@ public class DocumentsDao {
                     + " session_formation sf ON dsd.id_session_formation = sf.id_session_formation"
                     + " INNER JOIN"
                     + " candidature c ON sf.id_session_formation = c.id_session_formation"
-                    + " WHERE c.id_personne = " + p.getId() + " AND c.id_etat_candidature = 6 ORDER BY d.date_depot DESc";
+                    + " WHERE c.id_personne = " + p.getId() + " AND c.id_etat_candidature = 6 ORDER BY d.date_depot DESC";
         }
 
         Statement stmt = connection.createStatement();

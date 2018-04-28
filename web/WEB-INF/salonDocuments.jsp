@@ -20,13 +20,16 @@
 
         <c:if test="${estDuPersonnel}">
             <h2>Gestion des documents</h2>
-            <form action="ajoutDocument" method="get">
+            <form action="ajoutDocument" method="GET">
                 <input type="submit" name="uploadDocument" value="Ajouter"/>
             </form>
-            <br/>
         </c:if>
+        <p><c:if test="${retour != null}">${retour}</c:if></p>
 
         <h2>Liste des documents disponibles:</h2>
+        <form action="document" method="GET">
+            <input type="submit" name="refresh" value="Rafraichir"/>
+        </form>
         <br/>
         <c:choose>
             <c:when test="${!empty sessionScope.lesDocuments}">
@@ -44,9 +47,9 @@
                             <td style="border: 1px solid black;"><c:out value="${doc.getDateDepot()}"/></td>
                             <c:if test="${estDuPersonnel}">
                                 <td>
-                                    <form action="actionDocument" method="post">
-                                        <button type="submit" name="modifierDocument" value="Modifier">Modifier</button>
-                                        <button type="submit" name="SupprimerDocument" value="Supprimer">Supprimer</button>
+                                    <form action="actionDocument" method="GET">
+                                        <button type="submit" name="modifierDocument" value="${doc.getId()}">Modifier</button>
+                                        <button type="submit" name="SupprimerDocument" value="${doc.getId()}">Supprimer</button>
                                     </form>
                                 </td>
                             </c:if>

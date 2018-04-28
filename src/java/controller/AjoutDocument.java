@@ -38,63 +38,80 @@ import tools.Upload;
 public class AjoutDocument extends HttpServlet {
 
     private final String VUE_UPLOAD = "/WEB-INF/ajoutDocument.jsp";
-    private final String VUE_SALON_DOC = "/WEB-INF/salonDocument.jsp";
+    private final String VUE_SALON_DOC = "/WEB-INF/salonDocuments.jsp";
     //private final String REP_DST = "/agriotes2018/documents/";
-    private final String REP_DST = "/home/yohan/Bureau/";
+    private final String REP_DST = "/home/yohan/Bureau";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-
-        String vue = VUE_UPLOAD;
+        HttpSession session = request.getSession(true);
         SessionFormationDao daoSession = new SessionFormationDao();
-
+        
         try {
             List<SessionFormation> lesSession = daoSession.getOuvertes();
             session.setAttribute("lesSession", lesSession);
         } catch (SQLException ex) {
             Logger.getLogger(AjoutDocument.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        request.getServletContext().getRequestDispatcher(vue).forward(request, response);
+        request.getServletContext().getRequestDispatcher(VUE_UPLOAD).forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        Personne p = (Personne) session.getAttribute("user");
-        DocumentsDao daoDocument = new DocumentsDao();
+        HttpSession session = request.getSession(true);
         String vue = VUE_UPLOAD;
 
-        if (request.getParameter("uploadphoto") != null) {
+        DocumentsDao daoDocument = new DocumentsDao();
+        Personne p = (Personne) session.getAttribute("user");
+        
+        String[] lesSession;
+        String message;
+        ArrayList<Integer> listeSession = new ArrayList<>();
+        
+        if (request.getParameter("uploadDoc") != null) {
 
-            String nomDocument = (String) request.getAttribute("nouveauNom");
+            String nomDocument = (String) request.getParameter("nouveauNom").trim();
 
-            if (nomDocument.equals(null)) {
-                nomDocument = request.getPart("doc").getName();
-                nomDocument = nomDocument.substring(nomDocument.lastIndexOf('/') + 1);
-                nomDocument = nomDocument.substring(nomDocument.lastIndexOf('\\') + 1);
+            if (nomDocument.isEmpty()) {
+                nomDocument = Upload.getFilenameToUpload(request.getPart("doc"));
+//            nomDocument = nomDocument.substring(nomDocument.lastIndexOf('/') + 1);
+//            nomDocument = nomDocument.substring(nomDocument.lastIndexOf('\\') + 1);
             }
 
-            String destination = REP_DST + nomDocument;
+            lesSession = request.getParameterValues("idSession");
+            if (lesSession != null) {
+                for (String idSession : lesSession) {
+                    listeSession.add(Integer.valueOf(idSession));
+                }
+            }
 
-            if (Upload.upload(request.getPart("doc"), destination, nomDocument)) {
-                Document document = new Document(0, p.getId(), REP_DST, null);
-                ArrayList<Integer> listeSession = (ArrayList<Integer>) request.getAttribute("idSession[]");
+            if (Upload.upload(request.getPart("doc"), REP_DST, nomDocument)) {
+                Document document = new Document(0, p.getId(), nomDocument, null);
 
                 try {
-                    daoDocument.ajouter(p, document, listeSession);
+                    daoDocument.ajouterDocument(p, document);
+                    if (!listeSession.isEmpty()) {
+                        int idDocument = daoDocument.getIdDocumentByName(document);
+                        daoDocument.ajouterDroitDocument(idDocument, listeSession);
+                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(AjoutDocument.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                vue = VUE_SALON_DOC;
+                message = "Le document \"" + document.getNom() + "\" a bien été uploadé.";
+                session.setAttribute("retour", message);
             }
-            vue = VUE_SALON_DOC;
+            else {
+                vue = VUE_SALON_DOC;
+                message = "Un probleme est survenu lors de l'upload.";
+                session.setAttribute("retour", message);
+            }
         }
-        
         request.getServletContext().getRequestDispatcher(vue).forward(request, response);
     }
+
 }
