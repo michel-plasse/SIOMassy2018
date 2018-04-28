@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import dao.DocumentsDao;
@@ -27,8 +22,9 @@ import tools.Upload;
 
 /**
  *
- * @author stagiaire
+ * @author YohanMA
  */
+
 @WebServlet(name = "AjoutDocumentServlet", urlPatterns = {"/ajoutDocument"})
 @MultipartConfig(fileSizeThreshold = 6291456, // 6 MB
         maxFileSize = 10485760L, // 10 MB    
@@ -78,8 +74,6 @@ public class AjoutDocument extends HttpServlet {
 
             if (nomDocument.isEmpty()) {
                 nomDocument = Upload.getFilenameToUpload(request.getPart("doc"));
-//            nomDocument = nomDocument.substring(nomDocument.lastIndexOf('/') + 1);
-//            nomDocument = nomDocument.substring(nomDocument.lastIndexOf('\\') + 1);
             }
 
             lesSession = request.getParameterValues("idSession");
@@ -101,15 +95,13 @@ public class AjoutDocument extends HttpServlet {
                 } catch (SQLException ex) {
                     Logger.getLogger(AjoutDocument.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                vue = VUE_SALON_DOC;
                 message = "Le document \"" + document.getNom() + "\" a bien été uploadé.";
-                session.setAttribute("retour", message);
             }
             else {
-                vue = VUE_SALON_DOC;
-                message = "Un probleme est survenu lors de l'upload.";
-                session.setAttribute("retour", message);
+                message = "Un probleme est survenu lors de l'upload."; 
             }
+            vue = VUE_SALON_DOC;
+            session.setAttribute("retour", message);
         }
         request.getServletContext().getRequestDispatcher(vue).forward(request, response);
     }
