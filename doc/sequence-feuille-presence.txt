@@ -1,0 +1,14 @@
+@startuml
+participant Navigateur
+participant JavaScript
+participant Vue
+participant Controleur
+participant Modele
+Navigateur -> Controleur: GET /update_presence
+Controleur-> Modele: PresenceDao dao = new PresenceDao();\nList<Presence> presences = dao.getByIdSeance(1);
+Controleur -> Vue: updatePresence.jsp
+Vue -> Navigateur: Liste des présences
+JavaScript -> Controleur: POST /presence?idSeance=...&idPersonne=...\navec estPresent
+Controleur -> Modele: PresenceDao dao = ... \ndao.update(idSeance,idPersonne,estPresent)
+Controleur -> JavaScript: code http
+@enduml

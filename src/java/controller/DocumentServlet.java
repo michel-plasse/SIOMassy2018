@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import dao.DocumentsDao;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -20,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Document;
 import model.Personne;
-import model.SessionFormation;
 
 /**
  *
@@ -38,12 +31,14 @@ public class DocumentServlet extends HttpServlet {
 
         String vue = VUE_GESTION;
         
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
         //Personne p = (Personne) session.getAttribute("user");
         DocumentsDao dao = new DocumentsDao();
         
-        Personne p = new Personne(4, "Callahan", "Quincy", "metus@odia.net", "0960458869", "Ap #649-4330 Suscipit Avenue", "70651", "Casablanca", "gravida", false, false);
+        Personne p = new Personne(1, "Callahan", "Quincy", "metus@odia.net", "0960458869", "Ap #649-4330 Suscipit Avenue", "70651", "Casablanca", "gravida", false, true);
         session.setAttribute("user", p);
+        
+        session.setAttribute("retour", "");
         
         try {
             ArrayList<Document> lesDocuments = dao.getAllDocumentByPersonne(p);
@@ -60,10 +55,4 @@ public class DocumentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     }
-    
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

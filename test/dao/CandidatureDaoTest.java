@@ -7,8 +7,6 @@ package dao;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.List;
-import javafx.util.converter.LocalDateTimeStringConverter;
 import model.Candidature;
 import model.Personne;
 import model.SessionFormation;
