@@ -60,7 +60,7 @@ public class SessionFormation {
         this.dateFin = dateFin;
     }
 
-    public boolean getEstOuverte() {
+    public boolean isEstOuverte() {
         return estOuverte;
     }
 
