@@ -13,20 +13,22 @@ import java.util.Objects;
  * @author Ronan
  */
 public class Avis {
-    
+
+    private int idPersonne;
     private int fonctionnalite;
     private int ergonomie;
     private int beaute;
     private String commentaire;
     LocalDateTime date;
 
-   public Avis(){
-       
-   }
+    public Avis() {
 
-    public Avis(   int fonctionnalite,  int ergonomie, int beaute, String commentaire, LocalDateTime date ) {
+    }
+
+    public Avis(int idPersonne, int fonctionnalite, int ergonomie, int beaute, String commentaire, LocalDateTime date) {
         super();
-        this. fonctionnalite= fonctionnalite;
+        this.idPersonne = idPersonne;
+        this.fonctionnalite = fonctionnalite;
         this.ergonomie = ergonomie;
         this.beaute = beaute;
         this.commentaire = commentaire;
@@ -65,13 +67,31 @@ public class Avis {
         this.commentaire = commentaire;
     }
 
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public int getIdPersonne() {
+        return idPersonne;
+    }
+
+    public void setIdPersonne(int idPersonne) {
+        this.idPersonne = idPersonne;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 71 * hash + this.fonctionnalite;
-        hash = 71 * hash + this.ergonomie;
-        hash = 71 * hash + this.beaute;
-        hash = 71 * hash + Objects.hashCode(this.commentaire);
+        int hash = 7;
+        hash = 37 * hash + this.idPersonne;
+        hash = 37 * hash + this.fonctionnalite;
+        hash = 37 * hash + this.ergonomie;
+        hash = 37 * hash + this.beaute;
+        hash = 37 * hash + Objects.hashCode(this.commentaire);
+        hash = 37 * hash + Objects.hashCode(this.date);
         return hash;
     }
 
@@ -87,6 +107,9 @@ public class Avis {
             return false;
         }
         final Avis other = (Avis) obj;
+        if (this.idPersonne != other.idPersonne) {
+            return false;
+        }
         if (this.fonctionnalite != other.fonctionnalite) {
             return false;
         }
@@ -99,21 +122,10 @@ public class Avis {
         if (!Objects.equals(this.commentaire, other.commentaire)) {
             return false;
         }
+        if (!Objects.equals(this.date, other.date)) {
+            return false;
+        }
         return true;
     }
 
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-   
-
-    
-
-    
-    
 }
