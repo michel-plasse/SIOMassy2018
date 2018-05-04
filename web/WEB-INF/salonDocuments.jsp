@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<c:set var="estDuPersonnel" value="${sessionScope.user.isEstFormateur() || sessionScope.user.isEstAdministration()}"/>
 
 <!DOCTYPE html>
 <html>
@@ -17,38 +18,47 @@
         <h1>Salon des Documents</h1>
         <br/>
 
-        <c:if test="${sessionScope.user.isEstFormateur() || sessionScope.user.isEstAdministration()}">
-            <form action="document" method="POST">
-                <input type="file" name ="document" value=""/>                
-                <br/><br/>
-                <input type="submit" name="uploadDocument" value="Upload"/>                
+        <c:if test="${estDuPersonnel}">
+            <h2>Gestion des documents</h2>
+            <form action="ajoutDocument" method="GET">
+                <input type="submit" name="uploadDocument" value="Ajouter"/>
             </form>
-            <p></p>
         </c:if>
+        <p><c:if test="${retour != null}">${retour}</c:if></p>
 
-        <h2>Liste des documents disponible:</h2>
+        <h2>Liste des documents disponibles:</h2>
+        <form action="document" method="GET">
+            <input type="submit" name="refresh" value="Rafraichir"/>
+        </form>
         <br/>
         <c:choose>
             <c:when test="${!empty sessionScope.lesDocuments}">
-                <c:if test="${sessionScope.user.isEstFormateur() || sessionScope.user.isEstAdministration()}">
-                    <input type="submit" name="modifier" value="modifier"/>
-                    <br/><br/>
-                </c:if>
-                <table style="border: 2px solid black;border-collapse: collapse;">
-                    <tr style="border: 2px solid black;">
-                        <th style="border: 2px solid black;">Nom</th>
-                        <th style="border: 2px solid black;">Date d'ajout</th>
+                <table style="border: 1px solid black;border-collapse: collapse;">
+                    <tr style="border: 1px solid black;">
+                        <th style="border: 1px solid black;">Nom</th>
+                        <th style="border: 1px solid black;">Date d'ajout</th>
+                            <c:if test="${estDuPersonnel}">
+                            <th>Action</th>
+                            </c:if>
                     </tr>
                     <c:forEach items="${lesDocuments}" var="doc" varStatus="boucle">
-                        <tr style="border: 2px solid black;">
-                            <td style="border: 2px solid black;"><c:out value="${doc.getNom()}"/></td>
-                            <td style="border: 2px solid black;"><c:out value="${doc.getDate_depot()}"/></td>
-                        <tr>
-                        </c:forEach>
+                        <tr style="border: 1px solid black;">
+                            <td style="border: 1px solid black;"><a href="${doc.getChemin()}"><c:out value="${doc.getNom()}"/></a></td>
+                            <td style="border: 1px solid black;"><c:out value="${doc.getDateDepot()}"/></td>
+                            <c:if test="${estDuPersonnel}">
+                                <td>
+                                    <form action="actionDocument" method="GET">
+                                        <button type="submit" name="modifierDocument" value="${doc.getId()}">Modifier</button>
+                                        <button type="submit" name="SupprimerDocument" value="${doc.getId()}">Supprimer</button>
+                                    </form>
+                                </td>
+                            </c:if>
+                        </tr>
+                    </c:forEach>
                 </table>
             </c:when>
             <c:when test="${empty sessionScope.lesDocuments}">
-                <p>Aucun documents disponible.</p>
+                <p>Aucun document disponible.</p>
             </c:when>
         </c:choose>
     </body>

@@ -56,4 +56,13 @@ public class Upload {
         }
         return true;
     }
+    
+    public static String getFilenameToUpload(Part part){
+        for(String contentDisposition : part.getHeader("content-disposition").split(";")){
+            if(contentDisposition.trim().startsWith("filename")){
+                return contentDisposition.substring(contentDisposition.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
+    }
 }
