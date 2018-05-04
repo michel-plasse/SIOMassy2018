@@ -21,9 +21,9 @@
                 <tr style="border: 1px solid black;">
                     <td style="border: 1px solid black;"><c:out value="${uneSession.idSession}" /></td>
                     <td style="border: 1px solid black;"><c:out value="${uneSession.idFormation}" /></td>
-                    <td style="border: 1px solid black;"><c:out value="${uneSession.dateDebut}" /></td>
-                    <td style="border: 1px solid black;"><c:out value="${uneSession.dateFin}" /></td>
-                    <td style="border: 1px solid black;"><c:out value="${uneSession.estOuverte}" /></td>
+                    <td style="border: 1px solid black;"><c:out value="${uneSession.getDateDebutToString()}" /></td>
+                    <td style="border: 1px solid black;"><c:out value="${uneSession.getDateFinToString()}" /></td>
+                    <td style="border: 1px solid black;"><c:out value="${uneSession.getEstOuverteToString()}" /></td>
                 </tr>
             </c:forEach>
         </table>
