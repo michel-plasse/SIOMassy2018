@@ -3,7 +3,8 @@
     Created on : 10 avr. 2018, 09:59:40
     Author     : Kiiaroto
 --%>
-
+<%@taglib prefix="p" tagdir="/WEB-INF/tags" %>
+<p:header titre="Lister les candidature"/>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
