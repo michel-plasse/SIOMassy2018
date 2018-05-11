@@ -5,18 +5,21 @@ body, html {
     margin: 0;
 }
 body {
-    margin-top: 3em;
+    margin-left: 10em;
     font-family: 'Raleway',sans-serif;
-    background-image: url(../img/ban.png);
-    background-size: cover;
+    /*background-image: url(../img/ban.png);
+    background-size: cover;*/
+    padding-left: 1em;
 }
 #menu {
     position: fixed;
     top: 0px;
-    width: 100%;
+    left: 0px;
+    width: 10em;
     display: flex;
-    align-items: center;
-    background-color: white;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #EEEEEE;
 }
 #menu a {
     display: inline-block;
@@ -25,12 +28,29 @@ body {
 #menu a:hover {
     color: #2C3E50;
 }
+td, th {
+    padding: 3px;
+    background-color: #F3F3F3;
+}
+hr {
+    height: 1px;
+    color: orange;
+    width: 90%;
+}
 h1 {
     color: #2C3E50;
     background-color: white;
     text-align: center;
     font-size: 200%;
 }
+/* pour les echanges */
+.typeEchange1 td {
+    background-color: #DDDDDD;
+}
+.typeEchange2 td {
+    background-color: #C5C5C5;
+}
+
 /* bannière*/
 /*
 .banner {

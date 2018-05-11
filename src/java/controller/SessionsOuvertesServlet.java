@@ -28,7 +28,7 @@ public class SessionsOuvertesServlet extends HttpServlet {
             request.setAttribute("sessions", sessions);
             
         } catch (SQLException exc) {
-            exc.printStackTrace();
+            exc.printStackTrace(); // affiche l'exception et l'état de la pile d'exécution au moment de son appel
             request.setAttribute("message", "Pb de bases de données");
             vue = VUE_ERREUR;
         }

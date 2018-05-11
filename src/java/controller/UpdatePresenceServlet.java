@@ -40,15 +40,16 @@ public class UpdatePresenceServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String vue = VUE_OK;
         System.out.println("Je suis dans UpdatePresenceServlet");
-        
+        int idSeance = 1;
         try {
             PresenceDao dao = new PresenceDao();
-            List<Presence> presences = dao.getByIdSeance(1);
+            List<Presence> presences = dao.getByIdSeance(idSeance);
             request.setAttribute("presences", presences);
         } catch (SQLException e) {
             request.setAttribute("message", "Erreur !");
             vue = VUE_ERREUR;
         }
+        request.setAttribute("idSeance", idSeance);
         request.getRequestDispatcher(vue).forward(request, response);
     }
     
