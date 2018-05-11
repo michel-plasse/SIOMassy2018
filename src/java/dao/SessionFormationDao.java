@@ -20,7 +20,11 @@ public class SessionFormationDao {
         Connection con = Database.getConnection();
         List<SessionFormation> listeDesSessionsOuvertes = new ArrayList<SessionFormation>();
 
-        String requete = "SELECT * FROM session_formation WHERE est_ouverte = true ORDER BY date_debut ASC";
+        String requete = "SELECT sf.id_session_formation, sf.id_formation, sf.date_debut, sf.date_fin, sf.est_ouverte, f.nom AS nom_formation"
+                + " FROM session_formation sf"
+                + " INNER JOIN"
+                + " formation f ON sf.id_formation = f.id_formation"
+                + " WHERE sf.est_ouverte = true ORDER BY sf.date_debut ASC";
 
         Statement canal = con.createStatement();
         ResultSet rs = canal.executeQuery(requete);
@@ -29,6 +33,7 @@ public class SessionFormationDao {
             SessionFormation session = new SessionFormation();
             session.setIdSession(rs.getInt("id_session_formation"));
             session.setIdFormation(rs.getInt("id_formation"));
+            session.setNomFormation(rs.getString("nom_formation"));
             session.setDateDebut(rs.getTimestamp("date_debut").toLocalDateTime());
             session.setDateFin(rs.getTimestamp("date_fin").toLocalDateTime());
             session.setEstOuverte(rs.getBoolean("est_ouverte"));

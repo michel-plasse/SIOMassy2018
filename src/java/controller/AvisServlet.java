@@ -81,7 +81,7 @@ public class AvisServlet extends HttpServlet {
 
         }
 
-        Avis avis = new Avis(avisFonction, avisErgo, avisBeau, commentaire, avisDate);
+        Avis avis = new Avis(0, avisFonction, avisErgo, avisBeau, commentaire, avisDate);
 
         try {
             AvisDao.insert(avis);
@@ -94,5 +94,7 @@ public class AvisServlet extends HttpServlet {
         request.setAttribute("message", "Votre avis est pris en compte !");
         request.getRequestDispatcher(vue).forward(request, response);
     }
+    
+    
 
 }

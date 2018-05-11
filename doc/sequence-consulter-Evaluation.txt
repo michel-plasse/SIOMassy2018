@@ -1,0 +1,14 @@
+@startuml
+participant Navigateur
+participant Vue
+participant Controleur
+participant Modèle
+
+Navigateur -> Controleur: GET /EvaluationStagiaireServlet ou EvaluationFormateurServlet
+Controleur -> Vue: evaluationsFormateur.jsp ou evaluationsStagiaire.jsp
+Vue -> Navigateur: Page pour consulter les evaluation
+Navigateur -> Controleur: Get /Evaluation Formateur ou stagiaire\navec idEvaluation
+Controleur -> Modèle: new Evaluation(...);\nEvaluationDao dao = new ...\ndao.getEvaluationStagiaire(eval) ou dao.getEvaluationFormateur(eval);
+Controleur -> Navigateur: response.redirect("/mesEvaluations")
+Navigateur -> Controleur: /evaluationsFormateur ou EvaluationsStagiaire
+@enduml

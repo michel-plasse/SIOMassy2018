@@ -7,8 +7,11 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import model.Avis;
 
 /**
@@ -18,8 +21,8 @@ import model.Avis;
 public class AvisDao {
 
     public static void insert(Avis avis) throws SQLException {
-   
-    Connection connection = Database.getConnection();
+
+        Connection connection = Database.getConnection();
         String sql = "INSERT INTO avis ( fonctionnalite, ergonomie,beaute, commentaire, date_effet)"
                 + " VALUES (?, ?, ?, ?, ?)";
         PreparedStatement stmt = connection.prepareStatement(sql);
@@ -33,11 +36,32 @@ public class AvisDao {
         stmt.close();
         connection.close();
 
-    
-    
-    
     }
 
-    
+    public static ArrayList<Avis> afficher() throws SQLException {
+
+        ArrayList<Avis> listeDesAvis = new ArrayList<>();
+
+        Connection connection = Database.getConnection();
+        String sql = "SELECT * FROM avis ORDER BY date_effet DESC";
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+
+        while (rs.next()) {
+            Avis avis = new Avis(
+                    rs.getInt("id_personne"),
+                    rs.getInt("fonctionnalite"),
+                    rs.getInt("ergonomie"),
+                    rs.getInt("beaute"),
+                    rs.getString("commentaire"),
+                    rs.getTimestamp("date_effet").toLocalDateTime());
+
+            listeDesAvis.add(avis);
+        }
+
+        stmt.close();
+        connection.close();
+        return listeDesAvis;
+    }
 
 }

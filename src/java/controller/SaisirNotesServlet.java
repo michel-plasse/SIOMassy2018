@@ -26,7 +26,7 @@ import model.Note;
 @WebServlet(name = "NoteServlet", urlPatterns = {"/saisirNotes"})
 public class SaisirNotesServlet extends HttpServlet {
 
-    private final String VUE_FORM = "/WEB-INF/notes.jsp";
+    private final String VUE_FORM = "/WEB-INF/notes.jsp"; 
     private final String VUE_MESSAGE = "/WEB-INF/message.jsp";
     String vue = VUE_FORM;
 
@@ -35,7 +35,9 @@ public class SaisirNotesServlet extends HttpServlet {
         int idEvaluation = 1; // d'abord en dur
         try {
             NoteDao dao = new NoteDao();
+            
             List<Note> notes = dao.getByIdEvaluation(idEvaluation);
+            request.setAttribute("titre",notes.get(idEvaluation).getTitre());
             request.setAttribute("notes", notes);
         } catch (SQLException ex) {
             Logger.getLogger(SaisirNotesServlet.class.getName()).log(Level.SEVERE, null, ex);
