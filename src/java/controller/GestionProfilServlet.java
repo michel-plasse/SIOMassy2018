@@ -35,7 +35,7 @@ public class GestionProfilServlet extends HttpServlet {
 
     private final String VUE_UPLOAD = "/WEB-INF/gestion-profil.jsp";
     private final String VUE_MESSAGE = "/WEB-INF/message.jsp";
-    private final String UPLOAD_DIR_PHOTO = "C:\\Users\\Teixei_H\\Documents\\NetBeansProjects\\SIOMassy2018\\web\\images\\photo_profil";
+    private final String UPLOAD_DIR_PHOTO = "C:\\Users\\Teixei_H\\Documents\\NetBeansProjects\\SIOMassy2018\\SIOMassy2018\\web\\photos";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,71 +47,76 @@ public class GestionProfilServlet extends HttpServlet {
             throws ServletException, IOException {
         String vue = VUE_UPLOAD;
         HttpSession session = request.getSession(true);
-//        Personne user = (Personne) session.getAttribute("user");
-        PersonneDao pdao = new PersonneDao();
+        Personne user = (Personne) session.getAttribute("user");
+        
+        if (user == null) {
+            vue = VUE_MESSAGE;
+            request.setAttribute("message", "Vous devez être connecté");
+        } else {
+            
+            PersonneDao pdao = new PersonneDao();
 
-        Personne user = new Personne(0, "Paul", "Smith", "popo@gmail.com", "0204020302", "rue du louvres", "89675", "Poil", "pomme", false, false);
+            if (request.getParameter("uploadphoto") != null) {
 
-        if (request.getParameter("uploadphoto") != null) {
+                String nomPhoto = user.getPrenom() + "_" + user.getNom() + "_" + user.getId();
 
-            String nomPhoto = user.getPrenom() + "_" + user.getNom() + "_" + user.getId();
+                boolean resultat = Upload.upload(request.getPart("photo"), UPLOAD_DIR_PHOTO, nomPhoto);
 
-            boolean resultat = Upload.upload(request.getPart("photo"), UPLOAD_DIR_PHOTO, nomPhoto);
-
-            if (resultat) {
-                System.out.println("Upload OK");
-                request.setAttribute("upload", "Image envoyée avec succès !");
-            } else {
-                System.out.println("Upload NOK");
-                request.setAttribute("upload", "Erreur dans l'envoi de votre image.");
-            }
-        }
-
-        if (request.getParameter("pwdchange") != null) {
-
-            boolean champsvalides = true;
-
-            String pwdactuel = request.getParameter("pwdactuel");
-            String newpwd = request.getParameter("newpwd");
-            String pwdcheck = request.getParameter("pwdcheck");
-
-            if (pwdactuel == null || pwdactuel.matches("^ *$")) {
-                champsvalides = false;
-                request.setAttribute("pwdactuel_message", "Veuillez entrer votre mot de passe actuel.");
-                vue = VUE_UPLOAD;
+                if (resultat) {
+                    System.out.println("Upload OK");
+                    request.setAttribute("upload", "Image envoyée avec succès !");
+                } else {
+                    System.out.println("Upload NOK");
+                    request.setAttribute("upload", "Erreur dans l'envoi de votre image.");
+                }
             }
 
-            if (newpwd == null || newpwd.matches("^ *$")) {
-                champsvalides = false;
-                request.setAttribute("newpwd_message", "Veuillez entrer un nouveau mot de passe.");
-                vue = VUE_UPLOAD;
-            }
+            if (request.getParameter("pwdchange") != null) {
 
-            if (pwdcheck == null || pwdcheck.matches("^ *$")) {
-                champsvalides = false;
-                request.setAttribute("pwdcheck_message", "Veuillez confirmer votre mot de passe.");
-                vue = VUE_UPLOAD;
-            } else if (!pwdcheck.equals(newpwd)) {
-                champsvalides = false;
-                request.setAttribute("pwdcheck_message", "Les deux mots de passes ne correspondent pas.");
-                vue = VUE_UPLOAD;
-            }
+                boolean champsvalides = true;
 
-            if (champsvalides) {
-                try {
-                    Connection con = Database.getConnection();
+                String pwdactuel = request.getParameter("pwdactuel");
+                String newpwd = request.getParameter("newpwd");
+                String pwdcheck = request.getParameter("pwdcheck");
 
-                    if (pdao.checkPassword(pwdactuel, 18)) {
-                        pdao.updatePassword(newpwd, 18);
-                        request.setAttribute("message", "Mot de passe changé avec succès !");
-                        vue = VUE_MESSAGE;
-                    } else {
-                        request.setAttribute("pwdactuel_message", "Ce n'est pas le bon mot de passe.");
-                        vue = VUE_UPLOAD;
+                if (pwdactuel == null || pwdactuel.matches("^ *$")) {
+                    champsvalides = false;
+                    request.setAttribute("pwdactuel_message", "Veuillez entrer votre mot de passe actuel.");
+                    vue = VUE_UPLOAD;
+                }
+
+                if (newpwd == null || newpwd.matches("^ *$")) {
+                    champsvalides = false;
+                    request.setAttribute("newpwd_message", "Veuillez entrer un nouveau mot de passe.");
+                    vue = VUE_UPLOAD;
+                }
+
+                if (pwdcheck == null || pwdcheck.matches("^ *$")) {
+                    champsvalides = false;
+                    request.setAttribute("pwdcheck_message", "Veuillez confirmer votre mot de passe.");
+                    vue = VUE_UPLOAD;
+                } else if (!pwdcheck.equals(newpwd)) {
+                    champsvalides = false;
+                    request.setAttribute("pwdcheck_message", "Les deux mots de passes ne correspondent pas.");
+                    vue = VUE_UPLOAD;
+                }
+
+                if (champsvalides) {
+                    try {
+                        Connection con = Database.getConnection();
+
+                        if (pdao.checkPassword(pwdactuel, 18)) {
+                            pdao.updatePassword(newpwd, 18);
+                            request.setAttribute("message", "Mot de passe changé avec succès !");
+                            vue = VUE_MESSAGE;
+                        } else {
+                            request.setAttribute("pwdactuel_message", "Ce n'est pas le bon mot de passe.");
+                            vue = VUE_UPLOAD;
+                        }
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(GestionProfilServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
-                } catch (SQLException ex) {
-                    Logger.getLogger(GestionProfilServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
