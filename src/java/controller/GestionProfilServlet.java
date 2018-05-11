@@ -35,7 +35,6 @@ public class GestionProfilServlet extends HttpServlet {
 
     private final String VUE_UPLOAD = "/WEB-INF/gestion-profil.jsp";
     private final String VUE_MESSAGE = "/WEB-INF/message.jsp";
-    private final String UPLOAD_DIR_PHOTO = "C:\\Users\\Teixei_H\\Documents\\NetBeansProjects\\SIOMassy2018\\SIOMassy2018\\web\\photos";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -48,18 +47,18 @@ public class GestionProfilServlet extends HttpServlet {
         String vue = VUE_UPLOAD;
         HttpSession session = request.getSession(true);
         Personne user = (Personne) session.getAttribute("user");
-        
+
         if (user == null) {
             vue = VUE_MESSAGE;
             request.setAttribute("message", "Vous devez être connecté");
         } else {
-            
+
             PersonneDao pdao = new PersonneDao();
 
             if (request.getParameter("uploadphoto") != null) {
 
                 String nomPhoto = user.getPrenom() + "_" + user.getNom() + "_" + user.getId();
-
+                String UPLOAD_DIR_PHOTO = getServletContext().getRealPath("/photos");
                 boolean resultat = Upload.upload(request.getPart("photo"), UPLOAD_DIR_PHOTO, nomPhoto);
 
                 if (resultat) {
