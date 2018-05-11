@@ -22,7 +22,7 @@
                 <br>
                 <p><c:if test="${upload != null}">${upload}</c:if></p>
                     <p></p>
-                    <input type="submit" name="uploadphoto" value="Envoyer"  />
+                    <button type="submit" name="action" value="uploadphoto" >Envoyer</button>
                 </form>
             </div>
             <div>
@@ -40,7 +40,7 @@
                     <input type="password" placeholder="Rentrez à nouveau votre mot de passe" name="pwdcheck"/>
                 <c:if test="${pwdcheck_message != null}">${pwdcheck_message}</c:if>
                 <p></p>
-                <input type="submit" name="pwdchange" value="Changer de mot de passe"/>
+                <button type="submit" name="action" value="pwdchange">Changer de mot de passe</button>
             </form>
         </div>
     </body>

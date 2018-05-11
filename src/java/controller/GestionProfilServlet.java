@@ -33,7 +33,7 @@ import tools.Upload;
 )
 public class GestionProfilServlet extends HttpServlet {
 
-    private final String VUE_UPLOAD = "/WEB-INF/gestion-profil.jsp";
+    private final String VUE_UPLOAD = "/WEB-INF/gestionProfil.jsp";
     private final String VUE_MESSAGE = "/WEB-INF/message.jsp";
 
     @Override
@@ -55,7 +55,7 @@ public class GestionProfilServlet extends HttpServlet {
 
             PersonneDao pdao = new PersonneDao();
 
-            if (request.getParameter("uploadphoto") != null) {
+            if ("uploadphoto".equals(request.getParameter("action"))) {
 
                 String nomPhoto = user.getPrenom() + "_" + user.getNom() + "_" + user.getId();
                 String UPLOAD_DIR_PHOTO = getServletContext().getRealPath("/photos");
@@ -70,7 +70,7 @@ public class GestionProfilServlet extends HttpServlet {
                 }
             }
 
-            if (request.getParameter("pwdchange") != null) {
+            if ("pwdchange".equals(request.getParameter("action"))) {
 
                 boolean champsvalides = true;
 

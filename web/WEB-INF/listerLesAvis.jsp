@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="p" tagdir="/WEB-INF/tags" %>
 <p:header titre="Lister les Avis"/>
+<%@taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -30,7 +31,7 @@
                     <td style="border: 1px solid black;">${unAvis.getFonctionnalite()}</td>
                     <td style="border: 1px solid black;">${unAvis.getErgonomie()}</td>
                     <td style="border: 1px solid black;">${unAvis.getBeaute()}</td>
-                    <td style="border: 1px solid black;">${unAvis.getCommentaire()}</td>
+                    <td style="border: 1px solid black;"><c:if test = "${unAvis.getCommentaire() == null}">Pas d'avis </c:if>${unAvis.getCommentaire()}</td>
                 </tr>
             </c:forEach>
         </table>
