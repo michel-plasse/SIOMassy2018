@@ -104,8 +104,8 @@ public class GestionProfilServlet extends HttpServlet {
                     try {
                         Connection con = Database.getConnection();
 
-                        if (pdao.checkPassword(pwdactuel, 18)) {
-                            pdao.updatePassword(newpwd, 18);
+                        if (pdao.checkPassword(pwdactuel, user.getId())) {
+                            pdao.updatePassword(newpwd, user.getId());
                             request.setAttribute("message", "Mot de passe changé avec succès !");
                             vue = VUE_MESSAGE;
                         } else {
