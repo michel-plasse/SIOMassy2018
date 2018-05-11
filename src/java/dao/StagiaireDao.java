@@ -43,11 +43,8 @@ public class StagiaireDao {
                     rs.getString("ville"),
                     rs.getString("code_postal"),
                     rs.getString("mot_de_passe"),
-                    rs.getBoolean("estFomateur"),
-                    rs.getBoolean("estAdministration")
-                   
+                    false, false               
            );
-           
             result.add(pers);
         }
         return result;

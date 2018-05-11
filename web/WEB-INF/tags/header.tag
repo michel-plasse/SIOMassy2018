@@ -36,6 +36,7 @@
                     <a href="creerEvaluation">Créer evaluation</a>
                     <a href="saisirNotes">Saisir Notes</a>
                     <a href="update_presence">Mise a jour présence</a>
+                    <a href="creerProjet">Créer un projet</a>
                 </c:if>
                 <hr/>
                 <a href="document">Document</a>
