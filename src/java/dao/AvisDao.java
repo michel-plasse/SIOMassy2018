@@ -23,15 +23,16 @@ public class AvisDao {
     public static void insert(Avis avis) throws SQLException {
 
         Connection connection = Database.getConnection();
-        String sql = "INSERT INTO avis ( fonctionnalite, ergonomie,beaute, commentaire, date_effet)"
-                + " VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO avis ( id_personne, fonctionnalite, ergonomie,beaute, commentaire, date_effet)"
+                + " VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = connection.prepareStatement(sql);
 
-        stmt.setInt(1, avis.getFonctionnalite());
-        stmt.setInt(2, avis.getErgonomie());
-        stmt.setInt(3, avis.getBeaute());
-        stmt.setString(4, avis.getCommentaire());
-        stmt.setTimestamp(5, Timestamp.valueOf(avis.getDate()));
+        stmt.setInt(1, avis.getIdPersonne());
+        stmt.setInt(2, avis.getFonctionnalite());
+        stmt.setInt(3, avis.getErgonomie());
+        stmt.setInt(4, avis.getBeaute());
+        stmt.setString(5, avis.getCommentaire());
+        stmt.setTimestamp(6, Timestamp.valueOf(avis.getDate()));
         stmt.executeUpdate();
         stmt.close();
         connection.close();

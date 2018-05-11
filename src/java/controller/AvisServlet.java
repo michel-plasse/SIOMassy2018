@@ -16,7 +16,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Avis;
+import model.Personne;
 
 /**
  *
@@ -43,7 +45,7 @@ public class AvisServlet extends HttpServlet {
         String avisFonctionnel = request.getParameter("avisFonctionnalite");
         String avisErgonomique = request.getParameter("avisErgonomie");
         String avisBeaute = request.getParameter("avisEsthetisme");
-        String commentaire = request.getParameter("commentaire");
+        String commentaire = request.getParameter("avisCommentaire");
         LocalDateTime avisDate = null;
         int avisFonction = -1;
         int avisErgo = -1;
@@ -79,12 +81,15 @@ public class AvisServlet extends HttpServlet {
         } catch (Exception e) {
             System.out.println("pb parse int3");
             vue = VUE_ERREUR;
-
         }
-
-        Avis avis = new Avis(0, avisFonction, avisErgo, avisBeau, commentaire, avisDate);
+        
+        
+        HttpSession maSession = request.getSession();
+        Personne user = (Personne) maSession.getAttribute("user");
+        Avis avis = new Avis(user.getId(), avisFonction, avisErgo, avisBeau, commentaire, avisDate);
 
         try {
+            
             AvisDao.insert(avis);
         } catch (SQLException ex) {
             Logger.getLogger(AvisServlet.class.getName()).log(Level.SEVERE, null, ex);
