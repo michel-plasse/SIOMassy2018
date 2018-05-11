@@ -3,7 +3,8 @@
     Created on : 10 avr. 2018, 10:09:27
     Author     : Ronan
 --%>
-
+<%@taglib prefix="p" tagdir="/WEB-INF/tags" %>
+<p:header titre="Donner Avis"/>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -67,5 +68,10 @@
             <br>
             <input type="submit" name="envoyerLesAvis" value="Soumettre votre avis">
             </form>
+            
+        <br><br>
+        
+        
+            
     </body>
 </html>

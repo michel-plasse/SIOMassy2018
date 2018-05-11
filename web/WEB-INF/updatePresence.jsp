@@ -3,7 +3,8 @@
     Created on : 5 avr. 2018, 16:03:02
     Author     : tonyd_wl3
 --%>
-
+<%@taglib prefix="p" tagdir="/WEB-INF/tags" %>
+<p:header titre="Mise à jour Présence"/>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
