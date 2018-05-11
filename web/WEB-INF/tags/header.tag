@@ -13,8 +13,14 @@
       <nav id="menu">
             <a href="index.jsp">Accueil</a>
             <a href="sessionsOuvertes"> Formations </a>
-            <a href="connexion"> Se connecter</a>
-            <a href="inscrire"> S'inscrire</a>
             <a href="contact.html"> Contact </a>
+            <c:if test="${user == null}">
+                <a href="connexion"> Se connecter</a>
+                <a href="inscrire"> S'inscrire</a>
+            </c:if>
+            <c:if test="${user != null}">
+                <a href="Deconnexion">Deconnexion</a>
+                <c:out value="${user.getNom()}"/>
+            </c:if>
         </nav>
   </header>
