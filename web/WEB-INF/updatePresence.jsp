@@ -23,7 +23,7 @@
         </style>
     </head>
     <body>
-        <h1>Bienvenue !</h1>
+        <h1>Liste des stagiaires de la séance n°${idSeance}</h1>
         <br>
         <table cellspacing="0">
             <tr>
