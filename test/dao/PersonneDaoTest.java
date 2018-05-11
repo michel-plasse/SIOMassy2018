@@ -23,4 +23,22 @@ public class PersonneDaoTest {
         
     }
     
+    @Test
+    public void testupdatePassword() throws Exception {
+        System.out.println("update");
+        String password = "Integer";
+        int id = 19;
+        PersonneDao instance = new PersonneDao();
+        instance.updatePassword(password, id);
+    }
+    
+    @Test
+    public void testcheckPassword() throws Exception {
+        System.out.println("check");
+        String password = "Integer";
+        int id = 19;
+        PersonneDao instance = new PersonneDao();
+        instance.checkPassword(password, id);
+    }
+    
 }
