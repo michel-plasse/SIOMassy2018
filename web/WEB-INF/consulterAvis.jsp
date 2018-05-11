@@ -3,7 +3,8 @@
     Created on : 26 avr. 2018, 17:05:39
     Author     : Ronan
 --%>
-
+<%@taglib prefix="p" tagdir="/WEB-INF/tags" %>
+<p:header titre="Consulter les Avis"/>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

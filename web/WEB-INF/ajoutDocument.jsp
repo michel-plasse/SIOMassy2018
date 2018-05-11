@@ -3,7 +3,8 @@
     Created on : 26 avr. 2018, 15:56:14
     Author     : YohanMA
 --%>
-
+<%@taglib prefix="p" tagdir="/WEB-INF/tags" %>
+<p:header titre="Ajouter un Document"/>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
