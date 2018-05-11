@@ -1,0 +1,25 @@
+@startuml
+participant Navigateur
+participant Vue
+participant Controleur
+participant Outil
+participant Modele
+
+Navigateur -> Controleur: GET /gestion_profil
+Controleur -> Vue: gestionProfil.jsp
+=== changement de mot de passe ===
+Vue -> Navigateur: 2 formulaires\nUn pour envoyer sa photo\nUn pour changer le mot de passe
+Navigateur -> Controleur: POST /gestion_profil avec action=pwdchange, pwdactuel, newpwd
+Controleur -> Modele: dao = new PersonneDao();\n dao.checkPassword(...);
+Modele -> Controleur: password est valide
+Controleur -> Modele: dao.updatePassword(...)
+Modele -> Controleur: Mot de passe modifie
+Controleur -> Vue: message.jsp
+Vue -> Navigateur: Mot de passe modifie avec succes
+=== envoi de sa photo ===
+Navigateur -> Controleur: POST /gestion_profil avec action=uploadphoto, photo
+Controleur -> Upload: upload = new Upload();\n upload.upload(...);
+Upload -> Controleur: boolean Photo envoyee
+Controleur -> Vue: si photo envoyee ou pas gestionProfil.jsp
+Vue -> Navigateur: Image envoyee avec succes
+@enduml
