@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Liste des avis :</h1>
         
         <table style="border: 1px solid black;border-collapse: collapse;">
             <tr style="border: 1px solid black;">

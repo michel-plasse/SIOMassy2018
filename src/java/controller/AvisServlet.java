@@ -22,7 +22,7 @@ import model.Avis;
  *
  * @author Ronan
  */
-@WebServlet(name = "AvisServlet", urlPatterns = {"/Avis"})
+@WebServlet(name = "AvisServlet", urlPatterns = {"/AvisServlet"})
 public class AvisServlet extends HttpServlet {
 
     private final String VUE_AVIS = "/WEB-INF/donnerAvis.jsp";

@@ -15,6 +15,5 @@
             <form method="post" action="DemandeAvisServlet">
             <input type="submit" name="demanderLesAvis" value="Demander les avis">    
             </form>
-
-            </body>
+    </body>
 </html>
