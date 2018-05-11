@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package controller;
 
 import java.io.IOException;
@@ -14,10 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author SANOGO
- */
 @WebServlet(name = "DeconnexionServlet", urlPatterns = {"/Deconnexion"})
 public class DeconnexionServlet extends HttpServlet {
 
@@ -63,14 +55,7 @@ public class DeconnexionServlet extends HttpServlet {
         maSession.invalidate();
         getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
     }
-
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
+@Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>

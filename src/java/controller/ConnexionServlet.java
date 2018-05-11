@@ -13,10 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Personne;
 
-/**
- *
- * @author SANOGO
- */
 @WebServlet(name = "ConnexionServlet", urlPatterns = {"/connexion"})
 public class ConnexionServlet extends HttpServlet {
 
