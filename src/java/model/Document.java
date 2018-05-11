@@ -43,8 +43,15 @@ public class Document {
         return chemin;
     }
 
-    public LocalDateTime getDateDepot() {
-        return dateDepot;
+    public String getDateDepot() {
+        String day = String.valueOf(dateDepot.getDayOfMonth());
+        String month = String.valueOf(dateDepot.getMonthValue());
+        String year = String.valueOf(dateDepot.getYear());
+        String hour = String.valueOf(dateDepot.getHour());
+        String minute = String.valueOf(dateDepot.getMinute());
+        String second = String.valueOf(dateDepot.getSecond());
+        
+        return day + "/" + month + "/" + year + " - " + hour + ":" + minute + ":" + second;
     }
 
     public void setId(int id) {

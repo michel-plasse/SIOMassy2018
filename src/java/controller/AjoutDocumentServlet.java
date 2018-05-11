@@ -31,12 +31,12 @@ import tools.Upload;
         maxRequestSize = 20971520L // 20 MB
 )
 
-public class AjoutDocument extends HttpServlet {
+public class AjoutDocumentServlet extends HttpServlet {
 
     private final String VUE_UPLOAD = "/WEB-INF/ajoutDocument.jsp";
     private final String VUE_SALON_DOC = "/WEB-INF/salonDocuments.jsp";
     //private final String REP_DST = "/agriotes2018/documents/";
-    private final String REP_DST = "/home/yohan/Bureau";
+    private final String REP_DST = "/home/stagiaire/Bureau";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -49,7 +49,7 @@ public class AjoutDocument extends HttpServlet {
             List<SessionFormation> lesSession = daoSession.getOuvertes();
             session.setAttribute("lesSession", lesSession);
         } catch (SQLException ex) {
-            Logger.getLogger(AjoutDocument.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AjoutDocumentServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         request.getServletContext().getRequestDispatcher(VUE_UPLOAD).forward(request, response);
     }
@@ -87,13 +87,14 @@ public class AjoutDocument extends HttpServlet {
                 Document document = new Document(0, p.getId(), nomDocument, null);
 
                 try {
-                    daoDocument.ajouterDocument(p, document);
-                    if (!listeSession.isEmpty()) {
-                        int idDocument = daoDocument.getIdDocumentByName(document);
-                        daoDocument.ajouterDroitDocument(idDocument, listeSession);
-                    }
+                    daoDocument.ajouterDocument(p, document, listeSession);
+//                    if (!listeSession.isEmpty()) {
+//                        int idDocument = daoDocument.getIdDocumentByName(document);
+//                        daoDocument.ajouterDroitDocument(idDocument, listeSession);
+//                    }
                 } catch (SQLException ex) {
-                    Logger.getLogger(AjoutDocument.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AjoutDocumentServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    message = "Un probleme "; 
                 }
                 message = "Le document \"" + document.getNom() + "\" a bien été uploadé.";
             }
