@@ -18,7 +18,7 @@ import model.Avis;
 import model.Candidature;
 import model.EtatCandidature;
 
-@WebServlet(name = "DemandeAvisServlet", urlPatterns = {"/DemandeAvisServlet"})
+@WebServlet(name = "demanderLesAvis", urlPatterns = {"/DemandeAvisServlet"})
 public class DemandeAvisServlet extends HttpServlet {
 
     private final String VUE_AFFICHE_AVIS = "/WEB-INF/listerLesAvis.jsp";

@@ -31,6 +31,7 @@ public class AvisServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("-------------------------------------------------------------------------VUE_AVIS");
         request.getRequestDispatcher(VUE_AVIS).forward(request, response);
 
     }
@@ -38,7 +39,7 @@ public class AvisServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+ System.out.println("+++++++++++++++++++++++++++++++++++---------VUE_AVIS");
         String avisFonctionnel = request.getParameter("avisFonctionnalite");
         String avisErgonomique = request.getParameter("avisErgonomie");
         String avisBeaute = request.getParameter("avisEsthetisme");
