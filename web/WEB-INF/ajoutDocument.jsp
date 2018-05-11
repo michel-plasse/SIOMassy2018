@@ -20,9 +20,9 @@
             <input type="file" name="doc"/>
             <br/><br/>
             <label><strong>2 - Renomer le document. (Laisser le champs vide pour garder le nom original.)</strong></label><br/>
-            <input type="text" name="nouveauNom"/> (50 caractéres maximum)
+            <input type="text" name="nouveauNom" maxlength="50"/> (50 caractéres maximum)
             <br/><br/>
-            <label><strong>3 - Quelles sessions peuvent utiliser ce document ?</strong></label><br/>
+            <label><strong>3 - Quelles sessions de formation peuvent utiliser ce document ?</strong></label><br/>
             <table style="border: 1px solid black;border-collapse: collapse;">
                 <tr style="border: 1px solid black;">
                     <th style="border: 1px solid black;"></th>
@@ -33,7 +33,7 @@
                     <tr style="border: 1px solid black;">
                         <td style="border: 1px solid black;"><input type="checkbox" name="idSession" value="${uneSession.getIdSession()}"></td>
                         <td style="border: 1px solid black;"><c:out value="${uneSession.getNomFormation()}"/></td>
-                        <td style="border: 1px solid black;"><c:out value="${uneSession.getDateDebut()} - ${uneSession.getDateFin()}"/></td>                        
+                        <td style="border: 1px solid black;"><c:out value="${uneSession.getDateDebutToString()} - ${uneSession.getDateFinToString()}"/></td>                        
                     </tr>
                 </c:forEach>
             </table>

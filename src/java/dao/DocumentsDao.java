@@ -11,9 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import model.Document;
 import model.Personne;
-import model.SessionFormation;
 
 /**
  *
@@ -30,7 +30,7 @@ public class DocumentsDao {
         stmt.setString(1, doc.getNom());
 
         ResultSet resultat = stmt.executeQuery();
-        while(resultat.next()){
+        while (resultat.next()) {
             idDocument = resultat.getInt("id_document");
         }
 
@@ -40,42 +40,51 @@ public class DocumentsDao {
         return idDocument;
     }
 
-    public void ajouterDocument(Personne p, Document doc) throws SQLException {
+    public void ajouterDocument(Personne p, Document doc, List<Integer> listeSessions) throws SQLException {
 
-        if (p.isEstAdministration() || p.isEstFormateur()) {
+        if (!(p.isEstAdministration() || p.isEstFormateur())) {
+            throw new AssertionError("Il faut être administration ou formateur");
+        }
 
-            Connection connection = Database.getConnection();
-
+        Connection connection = Database.getConnection();
+        try {
+            connection.setAutoCommit(false);
             String sql = "INSERT INTO document (id_proprietaire, nom, chemin, date_depot)"
                     + " VALUES (?, ?, ?, NOW())";
 
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, doc.getIdProprietaire());
             stmt.setString(2, doc.getNom());
             stmt.setString(3, doc.getChemin());
 
             stmt.executeUpdate();
+            ResultSet rs = stmt.getGeneratedKeys();
+           
+            if (rs.next()) {
+                doc.setId(rs.getInt(1));
+            }
+            
             stmt.close();
-            connection.close();
-        }
-    }
-
-    public void ajouterDroitDocument(int idDocument, ArrayList<Integer> listeSessions) throws SQLException {
-        Connection connection = Database.getConnection();
-
-        for (Integer idSession : listeSessions) {
-
             String droit = "INSERT INTO droit_sur_document (id_document, id_session_formation)"
                     + " VALUES (?, ?)";
-
-            PreparedStatement stmt = connection.prepareCall(droit);
-            stmt.setInt(1, idDocument);
-            stmt.setInt(2, idSession);
-
-            stmt.executeUpdate();
+            stmt = connection.prepareCall(droit);
+            
+            for (Integer idSession : listeSessions) {
+                stmt.setInt(1, doc.getId());
+                stmt.setInt(2, idSession);
+                stmt.executeUpdate();
+            }
+           
             stmt.close();
+            connection.commit();
+       
+        } catch (SQLException exc) {
+            connection.rollback();
+            throw exc;
+       
+        } finally {
+            connection.close();
         }
-        connection.close();
     }
 
     public ArrayList<Document> getDocumentBySession(int idSession) throws SQLException {
@@ -118,10 +127,8 @@ public class DocumentsDao {
                     + " INNER JOIN"
                     + " droit_sur_document dsd ON d.id_document = dsd.id_document"
                     + " INNER JOIN"
-                    + " session_formation sf ON dsd.id_session_formation = sf.id_session_formation"
-                    + " INNER JOIN"
-                    + " candidature c ON sf.id_session_formation = c.id_session_formation"
-                    + " WHERE c.id_personne = " + p.getId() + " AND c.id_etat_candidature = 6 ORDER BY d.date_depot DESC";
+                    + " stagiaire s ON s.id_session_formation = dsd.id_session_formation"
+                    + " WHERE s.id_personne = " + p.getId() + " ORDER BY d.date_depot DESC";
         }
 
         Statement stmt = connection.createStatement();
@@ -138,40 +145,5 @@ public class DocumentsDao {
 
         connection.close();
         return lesDocs;
-    }
-
-    public void supprimer(Personne p, int idDocument) throws SQLException {
-        Connection connection = Database.getConnection();
-        if (p.isEstAdministration() || p.isEstFormateur()) {
-
-            String sql = "DELETE FROM document"
-                    + " WHERE id_document = ?";
-
-            PreparedStatement stmt = connection.prepareCall(sql);
-            stmt.setInt(1, idDocument);
-
-            stmt.executeUpdate();
-            stmt.close();
-            connection.close();
-        }
-    }
-
-    public void modifierNomDocument(Personne p, int idDocument, String nouveauNom) throws SQLException {
-
-        if (p.isEstAdministration() || p.isEstFormateur()) {
-
-            Connection connection = Database.getConnection();
-            String sql = "UPDATE document"
-                    + " SET nom = ?"
-                    + " WHERE id_document = ?";
-
-            PreparedStatement stmt = connection.prepareCall(sql);
-            stmt.setString(1, nouveauNom);
-            stmt.setInt(2, idDocument);
-
-            stmt.executeUpdate();
-            stmt.close();
-            connection.close();
-        }
     }
 }
