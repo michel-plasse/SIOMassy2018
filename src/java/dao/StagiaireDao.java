@@ -32,19 +32,24 @@ public class StagiaireDao {
         stmt.setInt(1, idSession);
         ResultSet rs = stmt.executeQuery();
 
-//        while (rs.next()) {
-//            Personne pers = new Personne(
-//                    rs.getInt("id_personne"),
-//                    rs.getString("nom"),
-//                    rs.getString("prenom"),
-//                    rs.getString("mail"),
-//                    rs.getString("tel"),
-//                    rs.getString("adresse"),
-//                    rs.getString("ville"),
-//                    rs.getString("code_postal"),
-//                    rs.getString("mot_de_passe"));
-//            result.add(pers);
-//        }
+       while (rs.next()) {
+           Personne pers = new Personne(
+                    rs.getInt("id_personne"),
+                    rs.getString("nom"),
+                    rs.getString("prenom"),
+                    rs.getString("mail"),
+                    rs.getString("tel"),
+                    rs.getString("adresse"),
+                    rs.getString("ville"),
+                    rs.getString("code_postal"),
+                    rs.getString("mot_de_passe"),
+                    rs.getBoolean("estFomateur"),
+                    rs.getBoolean("estAdministration")
+                   
+           );
+           
+            result.add(pers);
+        }
         return result;
     }
 
