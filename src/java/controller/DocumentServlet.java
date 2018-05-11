@@ -32,17 +32,12 @@ public class DocumentServlet extends HttpServlet {
         String vue = VUE_GESTION;
         
         HttpSession session = request.getSession(true);
-        //Personne p = (Personne) session.getAttribute("user");
+        Personne p = (Personne) session.getAttribute("user");
         DocumentsDao dao = new DocumentsDao();
-        
-        Personne p = new Personne(1, "Callahan", "Quincy", "metus@odia.net", "0960458869", "Ap #649-4330 Suscipit Avenue", "70651", "Casablanca", "gravida", false, true);
-        session.setAttribute("user", p);
-        
-        session.setAttribute("retour", "");
         
         try {
             ArrayList<Document> lesDocuments = dao.getAllDocumentByPersonne(p);
-            session.setAttribute("lesDocuments", lesDocuments);
+            request.setAttribute("lesDocuments", lesDocuments);
             vue = VUE_GESTION;
         } catch (SQLException ex) {
             Logger.getLogger(DocumentServlet.class.getName()).log(Level.SEVERE, null, ex);

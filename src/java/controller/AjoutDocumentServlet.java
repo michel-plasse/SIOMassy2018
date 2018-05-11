@@ -47,7 +47,7 @@ public class AjoutDocumentServlet extends HttpServlet {
         
         try {
             List<SessionFormation> lesSession = daoSession.getOuvertes();
-            session.setAttribute("lesSession", lesSession);
+            request.setAttribute("lesSession", lesSession);
         } catch (SQLException ex) {
             Logger.getLogger(AjoutDocumentServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -102,7 +102,7 @@ public class AjoutDocumentServlet extends HttpServlet {
                 message = "Un probleme est survenu lors de l'upload."; 
             }
             vue = VUE_SALON_DOC;
-            session.setAttribute("retour", message);
+            request.setAttribute("messageUpload", message);
         }
         request.getServletContext().getRequestDispatcher(vue).forward(request, response);
     }

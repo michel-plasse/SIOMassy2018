@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%@taglib prefix="p" tagdir="/WEB-INF/tags" %>
 <p:header titre="Page de connexion"/>
 <c:set var="estDuPersonnel" value="${sessionScope.user.isEstFormateur() || sessionScope.user.isEstAdministration()}"/>
@@ -25,7 +25,7 @@
                 <input type="submit" name="uploadDocument" value="Ajouter"/>
             </form>
         </c:if>
-        <p><c:if test="${retour != null}">${retour}</c:if></p>
+        <p><c:if test="${messageUpload != null}">${messageUpload}</c:if></p>
 
         <h2>Liste des documents disponibles:</h2>
         <form action="document" method="GET">
@@ -33,7 +33,7 @@
         </form>
         <br/>
         <c:choose>
-            <c:when test="${!empty sessionScope.lesDocuments}">
+            <c:when test="${!empty lesDocuments}">
                 <table style="border: 1px solid black;border-collapse: collapse;">
                     <tr style="border: 1px solid black;">
                         <th style="border: 1px solid black;">Nom</th>
