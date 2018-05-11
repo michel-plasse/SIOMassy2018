@@ -1,16 +1,14 @@
+<%@taglib prefix="p" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Trombinoscope de la session ${param["idSession"]}</title>
+<p:header titre="Trombinoscope de la session ${param['idSession']}"/>
+<h1>Trombinoscope de la session ${param['idSession']}  (${stagiaires.size()} stagiaires)</h1>
         <style>
 
             #trombino {
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: space-around;
+                justify-content: flex-start; /*space-around;*/
             }
 
             #trombino div {
@@ -19,11 +17,9 @@
                 padding: 4px;
                 text-align: center;
                 word-wrap: break-word;
+                margin: 5px; 
             }
         </style>
-    </head>
-    <body>
-        <h1>Trombinoscope (${stagiaires.size()} stagiaires)</h1>
         <div id="trombino">
             <c:forEach items="${stagiaires}" var="stagiaire">
                 <div>
